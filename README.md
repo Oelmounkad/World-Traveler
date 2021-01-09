@@ -1,6 +1,6 @@
-# GuideME
+# World Traveler
 
-**GuideMe** an application that connects travelers and tourist guides.
+**World Traveler** is an application that connects travelers and non-professionnal tourist guides.
 
 # How to serve the app:
 
