@@ -4,7 +4,7 @@
 
 
 ## Application Architecture
- <img src="https://imgur.com/n9sL8CR" width="60%"></img>  
+![](images/diagram.png)
 
 # How to serve the app:
 
