@@ -60,11 +60,12 @@ const Signup = props => {
                         duration: 9000,
                         isClosable: true,
                       })
+                      props.history.push('/login')
                 }
                
 
         
-    }, [error,isRegistered]);
+    }, [error,isRegistered,props.history]);
     const onSubmit = e => {
         e.preventDefault()
         if(username !== '' && password !== '' && email !== ''){
