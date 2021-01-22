@@ -6,13 +6,16 @@ import setAuthToken from '../../utils/setAuthToken'
 
 import {
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL,
+    REGISTER_SUCCESS,
+    REGISTER_FAIL
 } from '../types'
 
 const AuthState = props => {
     const initialState = {
         token: localStorage.getItem('token'),
         isAuthenticated: localStorage.getItem('isAuth'),
+        isRegistered: false,
         user: JSON.parse(localStorage.getItem('user')) ,
         error: null
     }
@@ -41,15 +44,36 @@ const AuthState = props => {
     }
 }
 
+ // Resister User
+ const signup = async formData => {
+
+    try {
+       const res = await authApi.post('/api/auth/signup', formData)
+
+        dispatch({
+            type: REGISTER_SUCCESS
+        })
+
+    } catch (err) {
+        dispatch({
+            type: REGISTER_FAIL,
+            payload: err.response.data.message
+        })
+    }
+}
+
+
 
    return (
        <AuthContext.Provider 
        value={{
            token: state.token,
            isAuthenticated: state.isAuthenticated,
+           isRegistered: state.isRegistered,
            user: state.user,
            error: state.error,
-           login
+           login,
+           signup
        }}>
 
            {props.children}
