@@ -70,7 +70,13 @@ const Login = props => {
             }
             login(data)
         }else{
-            alert('Fill the blanks!!')
+          errorToast({
+            title: 'Empty Fields',
+            description: "Fill all the fields.",
+            status: "error",
+            duration: 4000,
+            isClosable: true,
+        })
         }
     }
 
