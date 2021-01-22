@@ -1,4 +1,6 @@
-import {useState} from 'react'
+import {useState,useContext} from 'react'
+import AuthContext from '../context/auth/AuthContext'
+
 import {Flex,
     Box,
     Heading,
@@ -7,8 +9,10 @@ import {Flex,
     Input,
     Button  } from "@chakra-ui/react"
 
-const Login = () => {
+const Login = props => {
 
+    const authContext = useContext(AuthContext)
+    const {login} = authContext
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -24,8 +28,13 @@ const Login = () => {
     const onSubmit = e => {
         e.preventDefault()
         if(username !== '' && password !== ''){
-
-            //login()
+            const data = {
+                username,
+                password
+            }
+            login(data)
+        }else{
+            alert('Fill the blanks!!')
         }
     }
 
