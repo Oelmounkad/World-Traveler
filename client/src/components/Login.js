@@ -1,4 +1,4 @@
-import {useState,useContext} from 'react'
+import {useState,useContext,useEffect} from 'react'
 import AuthContext from '../context/auth/AuthContext'
 
 import {Flex,
@@ -7,15 +7,19 @@ import {Flex,
     FormControl,
     FormLabel,
     Input,
-    Button  } from "@chakra-ui/react"
+    Button,
+    useToast } from "@chakra-ui/react"
 
 const Login = props => {
 
     const authContext = useContext(AuthContext)
-    const {login} = authContext
+    const {login,isAuthenticated,error,user} = authContext
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+
+    const errorToast = useToast()
+    const successToast = useToast()
 
     const onChangeUsername = e => {
         setUsername(e.target.value)
@@ -25,6 +29,34 @@ const Login = props => {
         setPassword(e.target.value)
     }
 
+    useEffect(() => {
+
+                if(error !== null){
+                    setUsername('')
+                    setPassword('')
+                    errorToast({
+                    title: error,
+                    description: "Unable to Authenticate.",
+                    status: "error",
+                    duration: 4000,
+                    isClosable: true,
+                })
+                }
+
+                if(isAuthenticated == true){
+                    successToast({
+                        position: "bottom-left",
+                        title: "Authenticated.",
+                        description: `Welcome ${user.username}`,
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                      })
+                }
+               
+
+        
+    }, [error,isAuthenticated]);
     const onSubmit = e => {
         e.preventDefault()
         if(username !== '' && password !== ''){
