@@ -1,6 +1,8 @@
 import {
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL,
+    REGISTER_SUCCESS,
+    REGISTER_FAIL
 } from '../types'
 
 
@@ -19,6 +21,7 @@ export default (state,action) => {
                 error: null
             }
             case LOGIN_FAIL:
+            case REGISTER_FAIL:
             localStorage.removeItem('token')
             localStorage.removeItem('isAuth')
             localStorage.removeItem('user')
@@ -29,6 +32,11 @@ export default (state,action) => {
                 user: null,
                 error: action.payload
             }
+                case REGISTER_SUCCESS:
+                return {
+                    ...state,
+                    isRegistered: true
+                }
             
         default:
             return state
