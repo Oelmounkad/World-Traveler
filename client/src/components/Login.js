@@ -18,6 +18,8 @@ const Login = props => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+    const [invalidity, setInvalidity] = useState(false);
+
     const errorToast = useToast()
     const successToast = useToast()
 
@@ -34,6 +36,7 @@ const Login = props => {
                 if(error !== null){
                     setUsername('')
                     setPassword('')
+                    setInvalidity(true)
                     errorToast({
                     title: error,
                     description: "Unable to Authenticate.",
@@ -44,6 +47,7 @@ const Login = props => {
                 }
 
                 if(isAuthenticated == true){
+                    setInvalidity(false)
                     successToast({
                         position: "bottom-left",
                         title: "Authenticated.",
@@ -80,11 +84,11 @@ const Login = props => {
             <form onSubmit={onSubmit}>
               <FormControl>
                 <FormLabel>Username</FormLabel>
-                <Input type="text" value={username} placeholder="test" onChange={onChangeUsername} />
+                <Input isInvalid={invalidity} type="text" value={username} placeholder="test" onChange={onChangeUsername} />
               </FormControl>
               <FormControl mt={6}>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" value={password} placeholder="*******" onChange={onChangePassword} />
+                <Input isInvalid={invalidity} type="password" value={password} placeholder="*******" onChange={onChangePassword} />
               </FormControl>
               <Button width="full" mt={4} type="submit">
                 Sign In
