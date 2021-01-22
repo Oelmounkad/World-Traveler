@@ -82,7 +82,7 @@ const Login = props => {
 
     return (
         <Flex width="full" align="center" justifyContent="center">
-        <Box p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
+        <Box bg="brand.100" p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
           <Box textAlign="center">
             <Heading>Login</Heading>
           </Box>
