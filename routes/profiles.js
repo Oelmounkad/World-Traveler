@@ -16,10 +16,10 @@ const auth = require('../middleware/auth')
  
 router.post('/', async (req, res) => {
     const profile = new Profile(req.body)
-    console.log(profile);
+    
     try {
-        const resultat = await profile.save()
-        res.json(resultat)
+        await profile.save()
+        res.status(201).send(profile)
     }catch(e) {
         res.status(400).send(e)
     }
@@ -29,14 +29,15 @@ router.post('/', async (req, res) => {
 // // @desc    Gets all the profiles
 // // @access  Public
 
-// router.get ('/', async (req, res) => {
+router.get ('/', async (req, res) => {
 
-//     try {
-//        
-//     }catch(e) {
-//
-//     }
-// })
+    try {
+       const profiles = await Profile.find()
+       res.send(profiles)
+    }catch(e) {
+        res.status(500).send(e) 
+    }
+})
 
 
 // // @route   GET api/profiles
