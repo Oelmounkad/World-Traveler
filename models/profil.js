@@ -38,7 +38,11 @@ const Profil = mongoose.model('Profil', {
     hobbies : {
         type: String,
         required : false
-    } 
+    },
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref: 'user'
+    }
 })
 
 module.exports = Profil
