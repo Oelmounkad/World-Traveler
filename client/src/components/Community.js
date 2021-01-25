@@ -1,6 +1,7 @@
 import React,{useState} from 'react'
-import { Box,IconButton,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center, useMenuState } from "@chakra-ui/react"
+import { Box,Avatar,Spacer,Button,IconButton,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center, useMenuState } from "@chakra-ui/react"
 import {MdMyLocation, MdPermContactCalendar,MdSearch} from 'react-icons/md'
+import {StarIcon} from "@chakra-ui/icons"
 const Community = () => {
 
     const [gender, setGender] = useState('Male')
@@ -21,12 +22,22 @@ const Community = () => {
         setAge(e.target.value)
     }
 
+    const property = {
+        beds: 3,
+        baths: 2,
+        title: "Modern home in city center in the heart of historic Los Angeles",
+        formattedPrice: "$1,900.00",
+        reviewCount: 34,
+        rating: 4,
+      }
+    
     return (
         <>
       
         <Box textAlign="center">
             <Heading>Search For Locals</Heading>
           </Box>
+          <br />
          <Center>
           <Flex gridColumnGap={4} gridRowGap={4}
           justify={["center", "space-between", "flex-end", "flex-end"]}
@@ -69,6 +80,141 @@ const Community = () => {
 
             </Flex>
             </Center>
+
+<br />
+            <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden">
+
+            <Box paddingLeft="4">
+            <Avatar
+      size="xl"
+      name="Kola Tioluwani"
+      src="https://bit.ly/tioluwani-kolawole"
+    />  
+            </Box>
+      <Box p="6">
+        <Box d="flex" alignItems="baseline">
+          <Badge borderRadius="full" px="2" colorScheme="teal">
+            Male
+          </Badge>
+        </Box>
+        <Box
+         
+        >
+          Fullname : Elmounkad Oussama
+        </Box>
+
+        <Box
+        >
+          Age : 28
+        </Box>
+
+        <Box
+            color="gray.500"
+            fontWeight="semibold"
+            letterSpacing="wide"
+            fontSize="xs"
+            textTransform="uppercase"
+          >
+           Languages: English &bull; French
+          </Box>
+          <Box
+            color="gray.500"
+            fontWeight="semibold"
+            letterSpacing="wide"
+            fontSize="xs"
+            textTransform="uppercase"
+          >
+           Hobbies: Skying &bull; Football
+          </Box>
+      
+      </Box>
+      <Flex direction="column"
+      >
+          <Box mt="1"
+      fontWeight="semibold"
+      as="h4"
+      lineHeight="tight"
+      isTruncated>
+        Description: 
+          </Box>
+          <Box overflow="hidden">
+              Hi i'm oussama i live in Lille.
+          </Box>
+      </Flex>
+      <Spacer />
+      <Flex direction="column" alignItems="center" paddingRight="2">
+      <Button colorScheme="blue">See profile</Button>
+      <br />
+      <Button colorScheme="blue">Contact</Button>
+      </Flex>
+    </Flex>
+
+
+    {/*Another one */}
+
+    <Flex marginLeft="80" alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden">
+
+<Box paddingLeft="4">
+<Avatar size="xl" name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />{" "}  
+</Box>
+<Box p="6">
+<Box d="flex" alignItems="baseline">
+<Badge borderRadius="full" px="2" colorScheme="teal">
+Male
+</Badge>
+</Box>
+<Box
+
+>
+Fullname : Elmounkad Oussama
+</Box>
+
+<Box
+>
+Age : 28
+</Box>
+
+<Box
+color="gray.500"
+fontWeight="semibold"
+letterSpacing="wide"
+fontSize="xs"
+textTransform="uppercase"
+>
+Languages: English &bull; French
+</Box>
+<Box
+color="gray.500"
+fontWeight="semibold"
+letterSpacing="wide"
+fontSize="xs"
+textTransform="uppercase"
+>
+Hobbies: Skying &bull; Football
+</Box>
+
+</Box>
+<Flex direction="column"
+>
+<Box mt="1"
+fontWeight="semibold"
+as="h4"
+lineHeight="tight"
+isTruncated>
+Description: 
+</Box>
+<Box overflow="hidden">
+  Hi i'm oussama i live in Lille.
+</Box>
+</Flex>
+<Spacer />
+<Flex direction="column" alignItems="center" paddingRight="2">
+<Button colorScheme="blue">See profile</Button>
+<br />
+<Button colorScheme="blue">Contact</Button>
+</Flex>
+</Flex>
+
           </>  
         
     )
