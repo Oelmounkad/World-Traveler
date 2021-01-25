@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const Profile = mongoose.model('Profile', {
+    user: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    },
     fullName : {
         type: String,
         required: true,
@@ -39,10 +43,6 @@ const Profile = mongoose.model('Profile', {
         type: String,
         required : false
     },
-    user: {
-        type: mongoose.Types.ObjectId,
-        ref: 'User'
-    }
 })
 
 module.exports = Profile
