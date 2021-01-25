@@ -78,13 +78,17 @@ router.get ('/:id', async (req, res) => {
 // // @desc    Deletes a profile
 // // @access  Public
 
-// router.delete ('/', async (req, res) => {
-
-//     try {
-//        
-//     }catch(e) {
-//
-//     }
-// })
+router.delete ('/:id', async (req, res) => {
+    const _id = req.params.id
+    try {
+        const profile = await Profile.findByIdAndDelete(_id)
+        if(!profile) {
+            return res.status(404).send()
+        }
+        res.send(profile)
+    }catch(e) {
+        res.status(500).send(e)
+    }
+})
 
 module.exports = router
