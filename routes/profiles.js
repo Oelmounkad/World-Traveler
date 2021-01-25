@@ -33,6 +33,9 @@ router.get ('/', async (req, res) => {
 
     try {
        const profiles = await Profile.find()
+       if (!profiles) {
+           return res.status(404).send('error : No profile found')
+       }
        res.send(profiles)
     }catch(e) {
         res.status(500).send(e) 
@@ -44,14 +47,19 @@ router.get ('/', async (req, res) => {
 // // @desc    Gets a profile by ID
 // // @access  Public
 
-// router.get (':id', async (req, res) => {
+router.get ('/:id', async (req, res) => {
+    const _id = req.params.id
 
-//     try {
-//        
-//     }catch(e) {
-//
-//     }
-// })
+    try {
+       const profile = await Profile.findById(_id)
+       if (!profile) {
+        return  res.status(404).send('error : Profile not found')
+      }
+      res.send(profile)
+    }catch(e) {
+        res.status(500).send()
+    }
+})
 
 // // @route   PATCH api/profiles
 // // @desc    Updates a profile
