@@ -1,4 +1,4 @@
 {
     "mongoURI" : "mongodb+srv://oelmounkad:11811294@contactkeeper.zg1tl.mongodb.net/platine?retryWrites=true&w=majority",
-    "jwtSecret" : "somesecretkey"
+    "jwtSecret" : "OussamaElmounkadSecret"
 }
