@@ -10,7 +10,7 @@ connectDB()
 app.use(express.json({limit: '50mb',extended:true}))
 
 // PORT
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 4000
 
 // Users routes
 app.use('/api/profiles',require('./routes/profiles'))
