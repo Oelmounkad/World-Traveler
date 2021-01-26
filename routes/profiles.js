@@ -143,6 +143,7 @@ router.patch ('/:id', auth, async (req, res) => {
 
 router.delete ('/:id', auth, async (req, res) => {
     const _id = req.params.id
+
     try {
         const profile = await Profile.findById(_id)
         if(!profile) {
@@ -153,6 +154,50 @@ router.delete ('/:id', auth, async (req, res) => {
         }
         const profileDeleted = await Profile.findByIdAndDelete(_id)
         res.send(profileDeleted)
+    }catch(e) {
+        res.status(500).send(e)
+    }
+}) 
+
+// @route   PATCH api/profiles/portfolio
+// @desc    ADD to a portfolio
+// @access  Private
+
+router.patch ('/portfolio/:id', async (req, res) => {
+    const _id = req.params.id
+
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['portfolio']
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update) )
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error : 'Invalid updates'})
+    }
+    
+    try {
+        let profile = await Profile.findById(_id)
+        if(!profile) {
+            return res.status(404).send('Profile does not exist !')
+        }
+        // if(profile.user.toString() !== req.sub ) {
+        //     return res.status(401).send('Not authorized to edit this profile s portfolio !')
+        // }
+        
+        let img_url = "" 
+ 
+        await cloudinary.uploader.upload(req.body.portfolio)
+        .then((result) => {
+            // Recuperate the url of the image stored
+             img_url = result.secure_url          
+        })
+        .catch((e) => {
+          res.status(500).send({e})
+        })
+         
+             profile.portfolio.push(img_url)
+             profile.save()  
+             res.send(profile)
+        
     }catch(e) {
         res.status(500).send(e)
     }
