@@ -11,7 +11,7 @@ const auth = require('../middleware/auth')
 
 // // @route   POST api/profiles
 // // @desc    Create a profile
-// // @access  Public  
+// // @access  Private  
  
 router.post('/', auth, async (req, res) => {
     const {fullName, sexe, birthDate, city, profilePicture, description, portfolio, languages, hobbies } = req.body
@@ -83,7 +83,7 @@ router.get ('/:id', async (req, res) => {
 
 // // @route   PATCH api/profiles
 // // @desc    Updates a profile
-// // @access  Public
+// // @access  Private
 
 router.patch ('/:id', auth, async (req, res) => {
     const _id = req.params.id
@@ -139,7 +139,7 @@ router.patch ('/:id', auth, async (req, res) => {
 
 // @route   DELETE api/profiles
 // @desc    Deletes a profile
-// @access  Public
+// @access  Private
 
 router.delete ('/:id', auth, async (req, res) => {
     const _id = req.params.id
