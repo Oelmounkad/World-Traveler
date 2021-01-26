@@ -15,9 +15,9 @@ const Profile = mongoose.model('Profile', {
         enum: ["Male","Female","Other"],
         required: true
     },
-    birthdate : {
+    birthDate : {
         type: Date,
-        required: false
+        required: true
     },
     city : {
         type: String,
@@ -31,18 +31,18 @@ const Profile = mongoose.model('Profile', {
         type: String,
         required: false
     },
-    portfolio : {
+    portfolio : [{
+        type: String,
+        required : false
+    }],
+    languages : [{
         type: [String],
         required : false
-    },
-    languages : {
-        type: [String],
-        required : false
-    },
+    }],
     hobbies : {
         type: String,
         required : false
-    },
+    }
 })
 
 module.exports = Profile
