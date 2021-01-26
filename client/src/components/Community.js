@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
-import { Box,Avatar,Spacer,Button,IconButton,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center, useMenuState } from "@chakra-ui/react"
+import { Box,Avatar,Spacer,Button,IconButton,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center } from "@chakra-ui/react"
 import {MdMyLocation, MdPermContactCalendar,MdSearch} from 'react-icons/md'
-import {StarIcon} from "@chakra-ui/icons"
+
 const Community = () => {
 
     const [gender, setGender] = useState('Male')
@@ -21,15 +21,6 @@ const Community = () => {
     const onChangeAge = e => {
         setAge(e.target.value)
     }
-
-    const property = {
-        beds: 3,
-        baths: 2,
-        title: "Modern home in city center in the heart of historic Los Angeles",
-        formattedPrice: "$1,900.00",
-        reviewCount: 34,
-        rating: 4,
-      }
     
     return (
         <>
