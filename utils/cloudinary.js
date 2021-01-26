@@ -8,4 +8,4 @@ cloudinary.config({
     api_secret: "jEpvAIqVXaUl70_S6jYbeYA2uCc"
   });
 
-export default cloudinary
+module.exports = cloudinary
