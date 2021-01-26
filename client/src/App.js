@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import AuthState from './context/auth/AuthState'
 import Header from './components/Header';
+import Profile from './components/Profile';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
 
 
                       <Route exact path="/community" component={Community} />
+                      <Route exact path="/profile/:id" component={Profile} />
 
 
               </Switch>
