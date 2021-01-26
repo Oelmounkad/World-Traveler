@@ -73,13 +73,13 @@ const Community = () => {
             </Center>
 
 <br />
-            <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden">
+            <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
             <Box paddingLeft="4">
             <Avatar
       size="xl"
       name="Kola Tioluwani"
-      src="https://bit.ly/tioluwani-kolawole"
+      src="https://bit.ly/kent-c-dodds"
     />  
             </Box>
       <Box p="6">
@@ -143,10 +143,10 @@ const Community = () => {
 
     {/*Another one */}
 
-    <Flex marginLeft="80" alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden">
+    <Flex marginLeft="80" alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
 <Box paddingLeft="4">
-<Avatar size="xl" name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />{" "}  
+<Avatar size="xl" name="Segun Adebayo" src="https://bit.ly/dan-abramov" />{" "}  
 </Box>
 <Box p="6">
 <Box d="flex" alignItems="baseline">
