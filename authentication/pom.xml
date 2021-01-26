@@ -14,9 +14,7 @@
 	<name>authentication</name>
 	<description>Authentication MicroService for World Traveler</description>
 
-	<properties>
-		<java.version>11</java.version>
-	</properties>
+	
 
 	<dependencies>
 		<dependency>
@@ -42,8 +40,17 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-				<!-- API, java.xml.bind module -->
+			<dependency>
+				  <groupId>io.jsonwebtoken</groupId>
+				  <artifactId>jjwt</artifactId>
+				  <version>0.9.1</version>
+			</dependency>
+			<dependency>
+			    <groupId>javax.validation</groupId>
+			    <artifactId>validation-api</artifactId>
+			    <version>2.0.1.Final</version>
+			</dependency>
+				<!-- API, java.xml.bind modulee -->
 <dependency>
     <groupId>jakarta.xml.bind</groupId>
     <artifactId>jakarta.xml.bind-api</artifactId>
