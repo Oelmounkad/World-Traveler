@@ -4,8 +4,7 @@ const router = express.Router()
 const Profile = require('../models/Profile')
 const User = require('../models/User')
 
-const config = require('config')
-// const cloudinary = require('../utils/cloudinary')
+const cloudinary = require('../utils/cloudinary')
 
 const auth = require('../middleware/auth')
 
@@ -14,12 +13,33 @@ const auth = require('../middleware/auth')
 // // @desc    Create a profile
 // // @access  Public  
  
-router.post('/', async (req, res) => {
-    const profile = new Profile(req.body)
-    
+router.post('/', auth, async (req, res) => {
+    const {fullName, sexe, birthDate, city, profilePicture, description, portfolio, languages, hobbies } = req.body
+    const profile = new Profile({fullName, sexe, birthDate, city, description,
+                                 portfolio, languages, hobbies, user : req.sub })
+     
     try {
+        let img_url = ""
+
+        if(profilePicture){
+         await cloudinary.uploader.upload(profilePicture)
+        .then((result) => {
+            // Recuperate the url of the image stored
+          img_url = result.secure_url
+          console.log('image url : '+img_url)
+        })
+        .catch((error) => {
+          res.status(500).send({
+            message: "failure",
+            error,
+          })
+        })
+        }
+        profile.profilePicture = img_url
+
         await profile.save()
         res.status(201).send(profile)
+
     }catch(e) {
         res.status(400).send(e)
     }
@@ -78,17 +98,21 @@ router.get ('/:id', async (req, res) => {
 // // @desc    Deletes a profile
 // // @access  Public
 
-router.delete ('/:id', async (req, res) => {
+router.delete ('/:id', auth, async (req, res) => {
     const _id = req.params.id
     try {
-        const profile = await Profile.findByIdAndDelete(_id)
+        const profile = await Profile.findById(_id)
         if(!profile) {
-            return res.status(404).send()
+            return res.status(404).send('Profile does not exist !')
         }
-        res.send(profile)
+        if(profile.user.toString() !== req.sub ) {
+            return res.status(401).send('Not authorized to delete this profile !')
+        }
+        const profileDeleted = await Profile.findByIdAndDelete(_id)
+        res.send(profileDeleted)
     }catch(e) {
         res.status(500).send(e)
     }
-})
+}) 
 
 module.exports = router
