@@ -1,5 +1,5 @@
 import React from 'react'
-import {Box, Flex,Text,Image, Icon, Spacer, Button} from "@chakra-ui/react"
+import {Box, Flex,Text,Image, Icon, Spacer, Button, Heading} from "@chakra-ui/react"
 import {MdBuild, MdFavorite, MdFitnessCenter, MdGroupWork,MdLanguage,MdPermContactCalendar} from 'react-icons/md'
 const Profile = () => {
     return (
@@ -7,10 +7,10 @@ const Profile = () => {
             <Flex direction="row">
 
             {/** Profile pic + infos */}
-                <Flex direction="column">
+                <Flex direction="column" marginLeft='12'>
                     <Box border="2px" borderColor="gray.500">
                     
-                        <Image border="2px" borderColor="black.100" m='1.5' marginBottom='2' boxSize="300px" src="https://bit.ly/naruto-sage" alt="naruto" objectFit="cover" />
+                        <Image border="2px" borderColor="black.100" m='1.5' marginBottom='2' boxSize="300px" src="https://bit.ly/dan-abramov" alt="naruto" objectFit="cover" />
                    
                             {/** Followers */}
                         <Flex my='2' alignItems="center" direction="row" bg="#EEEEEE" px="1" mx="1" borderRadius="3px" boxShadow="base" >
@@ -76,6 +76,27 @@ const Profile = () => {
 
 
              {/** portfolio + desc */}
+
+                <Flex direction="column">
+
+                     <Flex direction="row" marginLeft="200">
+                        <Image  m='1.5' marginBottom='2' boxSize="250px" src="https://bit.ly/dan-abramov" alt="naruto" objectFit="cover" />
+                        <Image  m='1.5' marginBottom='2' boxSize="250px" src="https://bit.ly/dan-abramov" alt="naruto" objectFit="cover" />
+                        <Image  m='1.5' marginBottom='2' boxSize="250px" src="https://bit.ly/dan-abramov" alt="naruto" objectFit="cover" />
+                     </Flex>
+
+                     <Box marginLeft="200">
+                        <Heading>Abramov</Heading>
+                       
+                        <Text  fontSize="xl">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </Text>
+                     </Box>
+                      
+
+                </Flex>
+
+
 
             </Flex>
 
