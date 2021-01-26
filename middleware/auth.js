@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const config = require('config')
+const jwtDecode = require('jwt-decode')
 
 module.exports = (req,res,next) => {
     // Get token from the header
@@ -9,9 +10,9 @@ module.exports = (req,res,next) => {
     // check if not token
 
     if(!token) return res.status(401).json({msg: 'No token, authorization denied'})
-
+    
     try {
-        const decoded = jwt.verify(token,config.get('OussamaElmounkadSecret'))
+        const decoded = jwtDecode(token)
         req.sub = decoded.sub
         next()
     } catch (err) {
