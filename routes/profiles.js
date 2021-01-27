@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 
 const Profile = require('../models/Profile')
-const User = require('../models/User')
 
 const cloudinary = require('../utils/cloudinary')
 
@@ -175,7 +174,7 @@ router.delete ('/:id', auth, async (req, res) => {
 // @desc    ADD to a portfolio
 // @access  Private
 
-router.patch ('/portfolio/:id', async (req, res) => {
+router.patch ('/portfolio/:id', auth , async (req, res) => {
     const _id = req.params.id
 
     const updates = Object.keys(req.body)
@@ -191,9 +190,9 @@ router.patch ('/portfolio/:id', async (req, res) => {
         if(!profile) {
             return res.status(404).send('Profile does not exist !')
         }
-        // if(profile.user.toString() !== req.sub ) {
-        //     return res.status(401).send('Not authorized to edit this profile s portfolio !')
-        // }
+        if(profile.user.toString() !== req.sub ) {
+             return res.status(401).send('Not authorized to edit this profile s portfolio !')
+         }
         
         let img_url = "" 
  
