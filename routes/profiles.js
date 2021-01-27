@@ -63,7 +63,7 @@ router.get ('/', async (req, res) => {
 })
 
 
-// // @route   GET api/profiles
+// // @route   GET api/profiles/:id
 // // @desc    Gets a profile by ID
 // // @access  Public
 
@@ -80,6 +80,26 @@ router.get ('/:id', async (req, res) => {
         res.status(500).send()
     }
 })
+
+
+// // @route   GET api/profiles/user/:id
+// // @desc    Gets a profile by User ID
+// // @access  Public
+
+router.get ('/user/:id', async (req, res) => {
+    const _id = req.params.id
+
+    try {
+       const profile = await Profile.find({user: _id})
+       if (!profile) {
+        return  res.status(404).send('error : Profile not found')
+      }
+      res.send(profile)
+    }catch(e) {
+        res.status(500).send()
+    }
+})
+
 
 // // @route   PATCH api/profiles
 // // @desc    Updates a profile
