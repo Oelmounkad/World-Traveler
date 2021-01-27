@@ -2,7 +2,9 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    PERSIST_PROFILE,
+    REGISTER_FAIL,
+    LOGOUT
 } from '../types'
 
 
@@ -37,6 +39,23 @@ export default (state,action) => {
                     ...state,
                     isRegistered: true
                 }
+                case LOGOUT:
+                    localStorage.removeItem('token')
+                    localStorage.removeItem('user')
+                    localStorage.setItem('isAuth','false')
+                    return {
+                        ...state,
+                        token:null,
+                        isAuthenticated: false,
+                        user: null,
+                        profile: null,
+                        error: action.payload
+                    }
+            case PERSIST_PROFILE:
+            return {
+                ...state,
+               profile: action.payload
+            }
             
         default:
             return state
