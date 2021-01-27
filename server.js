@@ -2,11 +2,13 @@ const express = require('express')
 const app = express()
 const connectDB = require('./config/db')
 const path = require('path')
+const cors = require('cors')
 
 //Connect DB
 connectDB()
 
 //Init Middleware
+app.use(cors())
 app.use(express.json({limit: '50mb',extended:true}))
 
 // PORT
