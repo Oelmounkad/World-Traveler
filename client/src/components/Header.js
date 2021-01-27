@@ -1,9 +1,15 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Link } from "react-router-dom";
-import { Box, Flex, Text, Button,Spacer } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Avatar, AvatarBadge, IconButton, Icon } from "@chakra-ui/react";
 import ColorModeSwitch from './ColorModeSwitch'
+import AuthContext from '../context/auth/AuthContext'
+import { MdPowerSettingsNew } from "react-icons/md";
+import {useHistory} from 'react-router-dom'
+
+
 
 const MenuItem = ({ children, isLast, to = "/", ...rest }) => {
+
   return (
     <Text
       mb={{ base: isLast ? 0 : 8, sm: 0 }}
@@ -41,6 +47,65 @@ const MenuIcon = () => (
 const Header = (props) => {
   const [show, setShow] = React.useState(false);
   const toggleMenu = () => setShow(!show);
+
+  const history = useHistory()
+
+  const authContext = useContext(AuthContext)
+  const {user,isAuthenticated, logout} = authContext 
+
+  const onLogout = () => {
+    logout()
+     history.push('/login')
+  }
+
+  const authLinks = (
+    <>
+    <Flex marginRight='7px'>
+  <Avatar src="https://bit.ly/dan-abramov" />
+  <Box ml="3">
+    <Text color="white" fontWeight="bold">
+      Elmounkad Oussama
+    </Text>
+    <Text fontSize="sm" color="white">Traveler</Text>
+  </Box>
+</Flex>
+<Button marginRight='6px' onClick={onLogout}>
+  <Icon color="#C62828" w={8} h={8} as={MdPowerSettingsNew} />
+</Button>
+
+    </>
+  )
+  const guestLinks = (
+    <>
+    <MenuItem to="/login" isLast={false}>
+            <Button
+              size="sm"
+              rounded="md"
+              color={["primary.500", "primary.500", "white", "white"]}
+              bg={["white", "white", "primary.500", "primary.500"]}
+              _hover={{
+                bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
+              }}
+            >
+              Login
+            </Button>
+          </MenuItem>
+          <MenuItem to="/signup" isLast={false}>
+            <Button
+              size="sm"
+              rounded="md"
+              color={["primary.500", "primary.500", "white", "white"]}
+              bg={["white", "white", "primary.500", "primary.500"]}
+              _hover={{
+                bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
+              }}
+            >
+              Create Account
+            </Button>
+          </MenuItem>
+    </>
+  )
+
 
   return (
     <Flex
@@ -85,32 +150,7 @@ const Header = (props) => {
           <MenuItem to="/messages">Messages </MenuItem>
           <MenuItem to="/recommandations">Recommandations </MenuItem>
           <MenuItem to="/questions">Q&A </MenuItem>
-          <MenuItem to="/login" isLast={false}>
-            <Button
-              size="sm"
-              rounded="md"
-              color={["primary.500", "primary.500", "white", "white"]}
-              bg={["white", "white", "primary.500", "primary.500"]}
-              _hover={{
-                bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
-              }}
-            >
-              Login
-            </Button>
-          </MenuItem>
-          <MenuItem to="/signup" isLast={false}>
-            <Button
-              size="sm"
-              rounded="md"
-              color={["primary.500", "primary.500", "white", "white"]}
-              bg={["white", "white", "primary.500", "primary.500"]}
-              _hover={{
-                bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
-              }}
-            >
-              Create Account
-            </Button>
-          </MenuItem>
+          { isAuthenticated ?  authLinks : guestLinks}
           <ColorModeSwitch />
         </Flex>
       </Box>
