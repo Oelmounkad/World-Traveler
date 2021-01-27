@@ -56,6 +56,7 @@ const Login = props => {
                         duration: 9000,
                         isClosable: true,
                       })
+                      props.history.push('/community')
                 }
                
 
