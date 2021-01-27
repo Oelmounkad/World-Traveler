@@ -1,22 +1,27 @@
-import React, { useReducer } from 'react';
+import React, { useReducer,useContext } from 'react';
 import AuthContext from './AuthContext'
 import AuthReducer from './AuthReducer'
 import authApi from '../../axios/AuthApi'
+import generalApi from '../../axios/GeneralApi'
 import setAuthToken from '../../utils/setAuthToken'
 
 import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    PERSIST_PROFILE,
+    REGISTER_FAIL,
+    LOGOUT
 } from '../types'
 
 const AuthState = props => {
+
     const initialState = {
         token: localStorage.getItem('token'),
         isAuthenticated: localStorage.getItem('isAuth'),
         isRegistered: false,
         user: JSON.parse(localStorage.getItem('user')) ,
+        profile: null,
         error: null
     }
 
@@ -35,6 +40,7 @@ const AuthState = props => {
             payload: res.data
         })
         setAuthToken(res.data.accessToken)
+        loadProfile(res.data.id)
 
     } catch (err) {
         dispatch({
@@ -62,6 +68,27 @@ const AuthState = props => {
     }
 }
 
+// Load User Profile
+const loadProfile = async userId => {
+
+    try {
+       const res = await generalApi.get(`/api/profiles/user/${userId}`)
+       console.log('profile data : ',res.data)
+
+        dispatch({
+            type: PERSIST_PROFILE,
+            payload: res.data
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+   // Logout
+   const logout = () => {
+    dispatch({type: LOGOUT})
+    }
 
 
    return (
@@ -71,9 +98,12 @@ const AuthState = props => {
            isAuthenticated: state.isAuthenticated,
            isRegistered: state.isRegistered,
            user: state.user,
+           profile : state.profile,
            error: state.error,
            login,
-           signup
+           signup,
+           loadProfile,
+           logout
        }}>
 
            {props.children}
