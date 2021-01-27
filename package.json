@@ -20,6 +20,7 @@
     "bcrypt": "^5.0.0",
     "cloudinary": "^1.23.0",
     "config": "^3.3.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
     "framer-motion": "^3.2.1",
