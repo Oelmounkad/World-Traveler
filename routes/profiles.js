@@ -89,7 +89,7 @@ router.get ('/user/:id', async (req, res) => {
     const _id = req.params.id
 
     try {
-       const profile = await Profile.find({user: _id})
+       const profile = await Profile.findOne({user: _id})
        if (!profile) {
         return  res.status(404).send('error : Profile not found')
       }
