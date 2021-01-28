@@ -12,12 +12,17 @@ const Recommandation = mongoose.model('Recommandation', {
     pictures : {
         type : [String]
     },
+    theme : {
+        type : String,
+        required : true
+    },
     city : {
         type : String,
         required : true
     },
     location : {
-        type : String
+        type : String,
+        required : true
     },
     likes : {
         type : Number,
@@ -27,10 +32,10 @@ const Recommandation = mongoose.model('Recommandation', {
         type : mongoose.Types.ObjectId,
         ref : 'User'
     }],
-    comments : {
+    comments : [{
         type : mongoose.Types.ObjectId,
         ref : 'Comment'
-    }
+    }]
 })
 
 module.exports = Recommandation
