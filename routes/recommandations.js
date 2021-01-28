@@ -85,4 +85,41 @@ router.delete ('/:id', auth, async (req, res) => {
     }
 }) 
 
+// PATCH /api/recommandations/:id
+// @desc Likes a Recommandation
+// @access Private
+
+router.patch('/like/:id', auth , async (req,res) => {
+
+    try {
+        let recommandation = await Recommandation.findById(req.params.id)
+        let currentLikes = recommandation.likes
+        let newLikes = currentLikes + 1
+
+        const updatedRecommandation = {
+            likes: newLikes
+        }
+        // Check if the recommandation exists in the database
+        if(!recommandation) 
+               return res.status(404).send({error :'Recommandation not found !'})
+
+        let l = recommandation.likers.filter( liker => req.user.id == liker)
+
+        if(l.length === 0 ) {
+            // Update the recommandation
+            recommandation = await Recommandation.findByIdAndUpdate(req.params.id,
+           {$set : updatedRecommandation},
+           {new: true})
+           recommandation.likers.push(req.sub)
+           recommandation.save()  
+           res.send(recommandation)} 
+           else{
+            res.status(401).send({ error : 'you already liked this recommandation !'})
+                }     
+    }catch (e) {
+        res.status(500).send(e)
+    }
+})
+
+
 module.exports = router
