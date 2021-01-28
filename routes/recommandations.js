@@ -63,6 +63,26 @@ router.get ('/', async (req, res) => {
     }
 })
 
+// DELETE /api/recommandations
+// @desc Delete a recommandation
+// @access Private
 
+router.delete ('/:id', auth, async (req, res) => {
+    const _id = req.params.id
+
+    try {
+        const recommandation = await Recommandation.findById(_id)
+        if(!recommandation) {
+            return res.status(404).send('Recommandation does not exist !')
+        }
+        if(recommandation.user.toString() !== req.sub ) {
+            return res.status(401).send('Not authorized to delete this recommandation !')
+        }
+        const recommandationDeleted = await Recommandation.findByIdAndDelete(_id)
+        res.send(recommandationDeleted)
+    }catch(e) {
+        res.status(500).send(e)
+    }
+}) 
 
 module.exports = router
