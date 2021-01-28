@@ -17,6 +17,8 @@ const PORT = process.env.PORT || 4000
 // Users routes
 app.use('/api/profiles',require('./routes/profiles'))
 
+app.use('/api/recommandations',require('./routes/recommandations'))
+
 
 //Serve static assets in production (to uncomment in Production)
 
