@@ -1,8 +1,14 @@
-import React,{useState} from 'react'
-import { Box,Avatar,Spacer,Button,IconButton,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center } from "@chakra-ui/react"
-import {MdMyLocation, MdPermContactCalendar,MdSearch} from 'react-icons/md'
+import React,{useState,useEffect,useContext} from 'react'
+import { Box,Avatar,Spacer,Button,IconButton,Text,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center } from "@chakra-ui/react"
+import { MdMyLocation, MdPermContactCalendar,MdSearch} from 'react-icons/md'
+import moment from 'moment'
+import AppContext from '../context/app/AppContext'
 
 const Community = () => {
+
+    const appContext = useContext(AppContext)
+    const {communityProfiles,getProfiles} = appContext
+
 
     const [gender, setGender] = useState('Male')
 
@@ -21,6 +27,9 @@ const Community = () => {
     const onChangeAge = e => {
         setAge(e.target.value)
     }
+    useEffect(() => {
+        getProfiles()
+    }, []);
     
     return (
         <>
@@ -73,30 +82,33 @@ const Community = () => {
             </Center>
 
 <br />
-            <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
+{communityProfiles.length !== 0 && 
+communityProfiles.map(profile => <>
+
+<Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
             <Box paddingLeft="4">
             <Avatar
       size="xl"
       name="Kola Tioluwani"
-      src="https://bit.ly/kent-c-dodds"
+      src={profile.profilePicture}
     />  
             </Box>
       <Box p="6">
         <Box d="flex" alignItems="baseline">
-          <Badge borderRadius="full" px="2" colorScheme="teal">
-            Male
+          <Badge borderRadius="full" px="2" colorScheme={profile.sexe === 'Male' ? 'teal' : 'red'}>
+            {profile.sexe}
           </Badge>
         </Box>
         <Box
          
         >
-          Fullname : Elmounkad Oussama
+          Fullname : {profile.fullName}
         </Box>
 
         <Box
         >
-          Age : 28
+          Age : {moment.duration(moment().diff(moment(profile.birthDate,'DD-MM-YYYY'))).years()  }
         </Box>
 
         <Box
@@ -106,16 +118,8 @@ const Community = () => {
             fontSize="xs"
             textTransform="uppercase"
           >
-           Languages: English &bull; French
-          </Box>
-          <Box
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-          >
-           Hobbies: Skying &bull; Football
+          <Text> Languages: {profile.languages.length !== 0 ? 
+          profile.languages.map((language,i) => profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text>
           </Box>
       
       </Box>
@@ -126,10 +130,10 @@ const Community = () => {
       as="h4"
       lineHeight="tight"
       isTruncated>
-        Description: 
+        Bio: 
           </Box>
           <Box overflow="hidden">
-              Hi i'm oussama i live in Lille.
+              {profile.bio}
           </Box>
       </Flex>
       <Spacer />
@@ -140,71 +144,11 @@ const Community = () => {
       </Flex>
     </Flex>
 
+</>)
 
-    {/*Another one */}
 
-    <Flex marginLeft="80" alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
-<Box paddingLeft="4">
-<Avatar size="xl" name="Segun Adebayo" src="https://bit.ly/dan-abramov" />{" "}  
-</Box>
-<Box p="6">
-<Box d="flex" alignItems="baseline">
-<Badge borderRadius="full" px="2" colorScheme="teal">
-Male
-</Badge>
-</Box>
-<Box
-
->
-Fullname : Elmounkad Oussama
-</Box>
-
-<Box
->
-Age : 28
-</Box>
-
-<Box
-color="gray.500"
-fontWeight="semibold"
-letterSpacing="wide"
-fontSize="xs"
-textTransform="uppercase"
->
-Languages: English &bull; French
-</Box>
-<Box
-color="gray.500"
-fontWeight="semibold"
-letterSpacing="wide"
-fontSize="xs"
-textTransform="uppercase"
->
-Hobbies: Skying &bull; Football
-</Box>
-
-</Box>
-<Flex direction="column"
->
-<Box mt="1"
-fontWeight="semibold"
-as="h4"
-lineHeight="tight"
-isTruncated>
-Description: 
-</Box>
-<Box overflow="hidden">
-  Hi i'm oussama i live in Lille.
-</Box>
-</Flex>
-<Spacer />
-<Flex direction="column" alignItems="center" paddingRight="2">
-<Button colorScheme="blue">See profile</Button>
-<br />
-<Button colorScheme="blue">Contact</Button>
-</Flex>
-</Flex>
+}
 
           </>  
         
