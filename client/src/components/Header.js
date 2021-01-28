@@ -51,7 +51,7 @@ const Header = (props) => {
   const history = useHistory()
 
   const authContext = useContext(AuthContext)
-  const {user,isAuthenticated, logout} = authContext 
+  const {profile,isAuthenticated, logout} = authContext 
 
   const onLogout = () => {
     logout()
@@ -60,18 +60,21 @@ const Header = (props) => {
 
   const authLinks = (
     <>
+     {profile !== null && <>
     <Flex marginRight='7px'>
-  <Avatar src="https://bit.ly/dan-abramov" />
+  <Avatar src={profile.profilePicture} />
   <Box ml="3">
     <Text color="white" fontWeight="bold">
-      Elmounkad Oussama
+      {profile.fullName}
     </Text>
-    <Text fontSize="sm" color="white">Traveler</Text>
+    <Text fontSize="sm" color="white">{profile.city}</Text>
   </Box>
 </Flex>
 <Button marginRight='6px' onClick={onLogout}>
   <Icon color="#C62828" w={8} h={8} as={MdPowerSettingsNew} />
 </Button>
+</>
+}
 
     </>
   )
@@ -150,7 +153,7 @@ const Header = (props) => {
           <MenuItem to="/messages">Messages </MenuItem>
           <MenuItem to="/recommandations">Recommandations </MenuItem>
           <MenuItem to="/questions">Q&A </MenuItem>
-          { isAuthenticated ?  authLinks : guestLinks}
+          { isAuthenticated == true ?  authLinks : guestLinks}
           <ColorModeSwitch />
         </Flex>
       </Box>
