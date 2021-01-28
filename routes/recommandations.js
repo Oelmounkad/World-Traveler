@@ -103,7 +103,7 @@ router.patch('/like/:id', auth , async (req,res) => {
         if(!recommandation) 
                return res.status(404).send({error :'Recommandation not found !'})
 
-        let l = recommandation.likers.filter( liker => req.user.id == liker)
+        let l = recommandation.likers.filter( liker => req.sub == liker)
 
         if(l.length === 0 ) {
             // Update the recommandation
@@ -119,6 +119,43 @@ router.patch('/like/:id', auth , async (req,res) => {
     }catch (e) {
         res.status(500).send(e)
     }
+})
+
+// PATCH /api/recommandations/:id
+// @desc Unlikes a Recommandation
+// @access Private
+
+router.patch('/unlike/:id', auth , async (req,res) => {
+
+    try {
+        let recommandation = await Recommandation.findById(req.params.id)
+        let currentLikes = recommandation.likes
+        let newLikes = currentLikes - 1
+
+        const updatedRecommandation = {
+            likes: newLikes
+        }
+        // Check if the post exists in the database
+        if(!recommandation) 
+               return res.status(404).send('Recommandation not found !')
+
+            let l = recommandation.likers.filter( liker => req.sub == liker)
+
+        if(l.length !== 0 ) {
+            // Update the recommandation
+            recommandation = await Recommandation.findByIdAndUpdate(req.params.id,
+           {$set : updatedRecommandation},
+           {new: true})
+           recommandation.likers.splice(recommandation.likers.indexOf(req.sub), 1)
+           recommandation.save()  
+            res.send(recommandation)
+                                            } 
+           else{
+            res.status(401).json('you already dont like this recommandation !')
+                }      
+    } catch (e) {
+        res.status(500).send(e)
+    } 
 })
 
 
