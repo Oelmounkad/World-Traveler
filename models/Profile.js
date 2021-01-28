@@ -16,7 +16,7 @@ const Profile = mongoose.model('Profile', {
         required: true
     },
     birthDate : {
-        type: Date,
+        type: String,
         required: true
     },
     city : {
