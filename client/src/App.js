@@ -6,11 +6,13 @@ import Signup from './components/Signup';
 import AuthState from './context/auth/AuthState'
 import Header from './components/Header';
 import Profile from './components/Profile';
+import AppState from './context/app/AppState';
 
 const App = () => {
   return (
-
+<AppState>
     <AuthState>
+      
         <Router>
           <Header />
               <Switch>
@@ -25,7 +27,9 @@ const App = () => {
 
               </Switch>
         </Router>
+       
     </AuthState>
+       </AppState>
   );
 }
 
