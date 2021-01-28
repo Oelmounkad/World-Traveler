@@ -9,9 +9,9 @@ const Recommandation = mongoose.model('Recommandation', {
         type : String,
         required : true
     },
-    pictures : {
-        type : [String]
-    },
+    pictures : [{
+        type : String
+    }],
     theme : {
         type : String,
         required : true
@@ -35,7 +35,11 @@ const Recommandation = mongoose.model('Recommandation', {
     comments : [{
         type : mongoose.Types.ObjectId,
         ref : 'Comment'
-    }]
+    }],
+    date : {
+        type: Date,
+        default: Date.now
+    }
 })
 
 module.exports = Recommandation
