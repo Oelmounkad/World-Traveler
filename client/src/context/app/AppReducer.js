@@ -1,4 +1,5 @@
-import { PERSIST_COMM_PROFILES } from "../types";
+import { PERSIST_COMM_PROFILES,
+        PERSIST_CHOSEN_PROFILE } from "../types";
 
 export default (state,action) => {
     switch(action.type){
@@ -8,7 +9,11 @@ export default (state,action) => {
                 ...state,
                 communityProfiles: action.payload
             }
-
+            case PERSIST_CHOSEN_PROFILE:
+                return{
+                    ...state,
+                    chosenProfile: action.payload
+                }
     }
 
 
