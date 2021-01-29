@@ -60,6 +60,27 @@ router.get ('/', async (req, res) => {
     }
 })
 
+// DELETE /api/questions
+// @desc Delete a question
+// @access Private
+
+router.delete ('/:id', auth, async (req, res) => {
+    const _id = req.params.id
+
+    try {
+        const question = await Question.findById(_id)
+        if(!question) {
+            return res.status(404).send('Question does not exist !')
+        }
+        if(question.user.toString() !== req.sub ) {
+            return res.status(401).send('Not authorized to delete this question !')
+        }
+        const questionDeleted = await Question.findByIdAndDelete(_id)
+        res.send(questionDeleted)
+    }catch(e) {
+        res.status(500).send(e)
+    }
+}) 
  
 
 module.exports = router
