@@ -43,6 +43,23 @@ router.post('/', auth, async (req, res) => {
     }
 })
 
+// GET /api/questions
+// @desc Gets all the questions
+// @access Public
+
+router.get ('/', async (req, res) => {
+
+    try {
+       const questions = await Question.find()
+       if (!questions) {
+           return res.status(404).send('error : No question found')
+       }
+       res.send(questions)
+    }catch(e) {
+        res.status(500).send(e) 
+    }
+})
+
  
 
 module.exports = router
