@@ -117,6 +117,43 @@ router.patch('/like/:id', auth , async (req,res) => {
         res.status(500).send(e)
     }
 })
+
+// PATCH /api/questions/:id
+// @desc Unlikes a Question
+// @access Private
+
+router.patch('/unlike/:id', auth , async (req,res) => {
+
+    try {
+        let question = await Question.findById(req.params.id)
+        let currentLikes = question.likes
+        let newLikes = currentLikes - 1
+
+        const updatedQuestion = {
+            likes: newLikes
+        }
+        // Check if the post exists in the database
+        if(!question) 
+               return res.status(404).send('Question not found !')
+
+            let l = question.likers.filter( liker => req.sub == liker)
+
+        if(l.length !== 0 ) {
+            // Update the question
+            question = await Question.findByIdAndUpdate(req.params.id,
+           {$set : updatedQuestion},
+           {new: true})
+           question.likers.splice(question.likers.indexOf(req.sub), 1)
+           question.save()  
+            res.send(question)
+                                            } 
+           else{
+            res.status(401).json('you already dont like this question !')
+                }      
+    } catch (e) {
+        res.status(500).send(e)
+    } 
+})
  
 
 module.exports = router
