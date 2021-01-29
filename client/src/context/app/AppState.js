@@ -3,12 +3,14 @@ import AppContext from './AppContext'
 import AppReducer from './AppReducer'
 
 import generalApi from '../../axios/GeneralApi'
-import {PERSIST_COMM_PROFILES} from '../types'
+import {PERSIST_COMM_PROFILES,
+        PERSIST_CHOSEN_PROFILE} from '../types'
 
 const AppState = props => {
 
     const initialState = {
-        communityProfiles: []
+        communityProfiles: [],
+        chosenProfile: null
     }
 
    const [state, dispatch] = useReducer(AppReducer, initialState)
@@ -31,12 +33,32 @@ const AppState = props => {
 
    }
 
+   // get Chosen Profile
+
+   const getChosenProfile = async id => {
+
+    try{
+     const res = await generalApi.get(`/api/profiles/user/${id}`)
+
+     dispatch({
+         type: PERSIST_CHOSEN_PROFILE,
+         payload: res.data
+     })
+
+    } catch(err){
+        console.log(err.message)
+    }
+
+}
+
 
    return (
        <AppContext.Provider 
        value={{
         communityProfiles: state.communityProfiles,
-        getProfiles
+        chosenProfile: state.chosenProfile,
+        getProfiles,
+        getChosenProfile
        }}>
 
            {props.children}
