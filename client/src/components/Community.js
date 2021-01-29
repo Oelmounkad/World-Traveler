@@ -1,4 +1,5 @@
 import React,{useState,useEffect,useContext} from 'react'
+import {useHistory} from 'react-router-dom'
 import { Box,Avatar,Spacer,Button,IconButton,Text,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center } from "@chakra-ui/react"
 import { MdMyLocation, MdPermContactCalendar,MdSearch} from 'react-icons/md'
 import moment from 'moment'
@@ -6,9 +7,14 @@ import AppContext from '../context/app/AppContext'
 
 const Community = () => {
 
+    const history = useHistory()
+    
     const appContext = useContext(AppContext)
     const {communityProfiles,getProfiles} = appContext
 
+    const goToProfile = (id) => {
+      history.push(`/profile/${id}`)
+    }
 
     const [gender, setGender] = useState('Male')
 
@@ -133,12 +139,12 @@ communityProfiles.map(profile => <>
         Bio: 
           </Box>
           <Box overflow="hidden">
-              {profile.bio}
+              {profile.description}
           </Box>
       </Flex>
       <Spacer />
       <Flex direction="column" alignItems="center" paddingRight="2">
-      <Button colorScheme="blue">See profile</Button>
+      <Button onClick={() => goToProfile(profile.user)} colorScheme="blue">See profile</Button>
       <br />
       <Button colorScheme="blue">Contact</Button>
       </Flex>
