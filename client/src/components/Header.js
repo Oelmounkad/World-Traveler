@@ -57,11 +57,14 @@ const Header = (props) => {
     logout()
      history.push('/login')
   }
+  const goToProfile = (id) => {
+    history.push(`/profile/${id}`)
+  }
 
   const authLinks = (
     <>
      {profile !== null && <>
-    <Flex marginRight='7px'>
+    <Flex cursor="pointer" onClick={() => goToProfile(profile.user)} marginRight='7px'>
   <Avatar src={profile.profilePicture} />
   <Box ml="3">
     <Text color="white" fontWeight="bold">
