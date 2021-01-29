@@ -60,7 +60,7 @@ router.get ('/', async (req, res) => {
     }
 })
 
-// DELETE /api/questions
+// DELETE /api/questions/:id
 // @desc Delete a question
 // @access Private
 
@@ -81,6 +81,42 @@ router.delete ('/:id', auth, async (req, res) => {
         res.status(500).send(e)
     }
 }) 
+
+// PATCH /api/questions/:id
+// @desc Likes a question
+// @access Private
+
+router.patch('/like/:id', auth , async (req,res) => {
+
+    try {
+        let question = await Question.findById(req.params.id)
+        let currentLikes = question.likes
+        let newLikes = currentLikes + 1
+
+        const updatedQuestion = {
+            likes: newLikes
+        }
+        // Check if the question exists in the database
+        if(!question) 
+               return res.status(404).send({error :'Question not found !'})
+
+        let l = question.likers.filter( liker => req.sub == liker)
+
+        if(l.length === 0 ) {
+            // Update the question
+            question = await Question.findByIdAndUpdate(req.params.id,
+           {$set : updatedQuestion},
+           {new: true})
+           question.likers.push(req.sub)
+           question.save()  
+           res.send(question)} 
+           else{
+            res.status(401).send({ error : 'you already liked this question !'})
+                }     
+    }catch (e) {
+        res.status(500).send(e)
+    }
+})
  
 
 module.exports = router
