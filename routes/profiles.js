@@ -116,7 +116,7 @@ router.patch ('/:id', auth, async (req, res) => {
             return res.status(401).send('Not authorized to edit this profile !')
         }
 
-    const {fullName,birthDate,city,description,languages,hobbies,profilePicture} = req.body
+    const {fullName,birthDate,city,description,languages,hobbies,profilePicture,address} = req.body
     const modifications = {}
 
     if(fullName) modifications.fullName = fullName
@@ -125,6 +125,7 @@ router.patch ('/:id', auth, async (req, res) => {
     if(description) modifications.description = description
     if(languages) modifications.languages = languages
     if(hobbies) modifications.hobbies = hobbies
+    if(address) modifications.address = address
 
         let img_url = ""
 
