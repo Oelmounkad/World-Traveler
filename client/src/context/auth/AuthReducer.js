@@ -43,6 +43,7 @@ export default (state,action) => {
                     localStorage.removeItem('token')
                     localStorage.removeItem('user')
                     localStorage.setItem('isAuth','false')
+                    localStorage.removeItem('profile')
                     return {
                         ...state,
                         token:null,
@@ -52,6 +53,7 @@ export default (state,action) => {
                         error: action.payload
                     }
             case PERSIST_PROFILE:
+                localStorage.setItem('profile',JSON.stringify(action.payload) )
             return {
                 ...state,
                profile: action.payload

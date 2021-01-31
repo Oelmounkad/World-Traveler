@@ -21,7 +21,7 @@ const AuthState = props => {
         isAuthenticated: localStorage.getItem('isAuth'),
         isRegistered: false,
         user: JSON.parse(localStorage.getItem('user')) ,
-        profile: null,
+        profile: JSON.parse(localStorage.getItem('profile')),
         error: null
     }
 
