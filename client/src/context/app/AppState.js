@@ -5,6 +5,7 @@ import AppReducer from './AppReducer'
 import generalApi from '../../axios/GeneralApi'
 import {PERSIST_COMM_PROFILES,
         PERSIST_CHOSEN_PROFILE} from '../types'
+import setAuthToken from '../../utils/setAuthToken'
 
 const AppState = props => {
 
@@ -12,6 +13,7 @@ const AppState = props => {
         communityProfiles: [],
         chosenProfile: null
     }
+
 
    const [state, dispatch] = useReducer(AppReducer, initialState)
 
@@ -51,6 +53,20 @@ const AppState = props => {
 
 }
 
+const updateProfile = async data => {
+    
+    setAuthToken(localStorage.token)
+    console.log('Hey update here')
+    try{
+     
+        await generalApi.patch(`/api/profiles/${data._id}`,data)
+
+    } catch(err){
+        console.log(err.message)
+    }
+
+}
+
 
    return (
        <AppContext.Provider 
@@ -58,7 +74,8 @@ const AppState = props => {
         communityProfiles: state.communityProfiles,
         chosenProfile: state.chosenProfile,
         getProfiles,
-        getChosenProfile
+        getChosenProfile,
+        updateProfile
        }}>
 
            {props.children}
