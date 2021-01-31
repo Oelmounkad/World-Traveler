@@ -23,6 +23,10 @@ const Profile = mongoose.model('Profile', {
         type: String,
         required: true
     },
+    address: {
+        type: String,
+        required: true
+    },
     profilePicture : {
         type: String,
         required: true
@@ -39,10 +43,10 @@ const Profile = mongoose.model('Profile', {
         type: [String],
         required : false
     }],
-    hobbies : {
+    hobbies : [{
         type: String,
         required : false
-    }
+    }]
 })
 
 module.exports = Profile
