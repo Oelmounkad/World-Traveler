@@ -63,7 +63,7 @@ const Header = (props) => {
 
   const authLinks = (
     <>
-     {profile !== null && <>
+    { profile !== null && <>
     <Flex cursor="pointer" onClick={() => goToProfile(profile.user)} marginRight='7px'>
   <Avatar src={profile.profilePicture} />
   <Box ml="3">
@@ -78,7 +78,6 @@ const Header = (props) => {
 </Button>
 </>
 }
-
     </>
   )
   const guestLinks = (
@@ -156,7 +155,7 @@ const Header = (props) => {
           <MenuItem to="/messages">Messages </MenuItem>
           <MenuItem to="/recommandations">Recommandations </MenuItem>
           <MenuItem to="/questions">Q&A </MenuItem>
-          { isAuthenticated == true ?  authLinks : guestLinks}
+          { isAuthenticated == "true" && profile !== null ?  authLinks : guestLinks}
           <ColorModeSwitch />
         </Flex>
       </Box>
