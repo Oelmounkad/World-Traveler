@@ -18,10 +18,8 @@ const Login = props => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const [invalidity, setInvalidity] = useState(false);
 
     const errorToast = useToast()
-    const successToast = useToast()
 
     const onChangeUsername = e => {
         setUsername(e.target.value)
@@ -36,26 +34,9 @@ const Login = props => {
                 if(error !== null){
                     setUsername('')
                     setPassword('')
-                    setInvalidity(true)
-                    errorToast({
-                    title: error,
-                    description: "Unable to Authenticate.",
-                    status: "error",
-                    duration: 4000,
-                    isClosable: true,
-                })
                 }
 
                 if(isAuthenticated == true){
-                    setInvalidity(false)
-                    successToast({
-                        position: "bottom-left",
-                        title: "Authenticated.",
-                        description: `Welcome ${user.username}`,
-                        status: "success",
-                        duration: 9000,
-                        isClosable: true,
-                      })
                       props.history.push('/community')
                 }
                
@@ -91,11 +72,11 @@ const Login = props => {
             <form onSubmit={onSubmit}>
               <FormControl>
                 <FormLabel>Username</FormLabel>
-                <Input isInvalid={invalidity} type="text" value={username} placeholder="test" onChange={onChangeUsername} />
+                <Input type="text" value={username} placeholder="test" onChange={onChangeUsername} />
               </FormControl>
               <FormControl mt={6}>
                 <FormLabel>Password</FormLabel>
-                <Input isInvalid={invalidity} type="password" value={password} placeholder="*******" onChange={onChangePassword} />
+                <Input type="password" value={password} placeholder="*******" onChange={onChangePassword} />
               </FormControl>
               <Button width="full" mt={4} type="submit">
                 Sign In

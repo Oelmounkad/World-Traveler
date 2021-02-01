@@ -19,10 +19,9 @@ const Signup = props => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const [invalidity, setInvalidity] = useState(false);
 
     const errorToast = useToast()
-    const successToast = useToast()
+
 
     const onChangeUsername = e => {
         setUsername(e.target.value)
@@ -41,25 +40,9 @@ const Signup = props => {
                 if(error !== null){
                     setUsername('')
                     setPassword('')
-                    setInvalidity(true)
-                    errorToast({
-                    title: error,
-                    description: "Unable to Sign up.",
-                    status: "error",
-                    duration: 4000,
-                    isClosable: true,
-                })
                 }
 
                 if(isRegistered == true){
-                    setInvalidity(false)
-                    successToast({
-                        position: "top-right",
-                        title: "User Registered.",
-                        status: "success",
-                        duration: 9000,
-                        isClosable: true,
-                      })
                       props.history.push('/login')
                 }
                
@@ -97,15 +80,15 @@ const Signup = props => {
             <form onSubmit={onSubmit}>
               <FormControl>
                 <FormLabel>Username</FormLabel>
-                <Input isInvalid={invalidity} type="text" value={username} placeholder="test" onChange={onChangeUsername} />
+                <Input type="text" value={username} placeholder="test" onChange={onChangeUsername} />
               </FormControl>
               <FormControl>
                 <FormLabel>Email</FormLabel>
-                <Input isInvalid={invalidity} type="text" value={email} placeholder="test@mail.com" onChange={onChangeEmail} />
+                <Input type="text" value={email} placeholder="test@mail.com" onChange={onChangeEmail} />
               </FormControl>
               <FormControl mt={6}>
                 <FormLabel>Password</FormLabel>
-                <Input isInvalid={invalidity} type="password" value={password} placeholder="*******" onChange={onChangePassword} />
+                <Input type="password" value={password} placeholder="*******" onChange={onChangePassword} />
               </FormControl>
               <Button width="full" mt={4} type="submit">
                 Sign Up
