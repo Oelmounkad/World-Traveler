@@ -13,23 +13,23 @@ const Profile = mongoose.model('Profile', {
     sexe : {
         type : String,
         enum: ["Male","Female","Other"],
-        required: true
+        required: false
     },
     birthDate : {
         type: String,
-        required: true
+        required: false
     },
     city : {
         type: String,
-        required: true
+        required: false
     },
     address: {
         type: String,
-        required: true
+        required: false
     },
     profilePicture : {
         type: String,
-        required: true
+        required: false
     },
     description : {
         type: String,
