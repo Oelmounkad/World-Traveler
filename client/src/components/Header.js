@@ -51,7 +51,7 @@ const Header = (props) => {
   const history = useHistory()
 
   const authContext = useContext(AuthContext)
-  const {profile,isAuthenticated, logout} = authContext 
+  const {profile,isAuthenticated, logout,user} = authContext 
 
   const onLogout = () => {
     logout()
@@ -60,10 +60,14 @@ const Header = (props) => {
   const goToProfile = (id) => {
     history.push(`/profile/${id}`)
   }
+  const goToAddProfile = () => {
+    history.push(`/profile/add`)
+  }
+  
 
   const authLinks = (
     <>
-    { profile !== null && <>
+    { profile !== null ? <>
     <Flex cursor="pointer" onClick={() => goToProfile(profile.user)} marginRight='7px'>
   <Avatar src={profile.profilePicture} />
   <Box ml="3">
@@ -76,7 +80,23 @@ const Header = (props) => {
 <Button marginRight='6px' onClick={onLogout}>
   <Icon color="#C62828" w={8} h={8} as={MdPowerSettingsNew} />
 </Button>
-</>
+</> : <> <Button
+              size="sm"
+              rounded="md"
+              color={["primary.500", "primary.500", "white", "white"]}
+              bg={["white", "white", "primary.500", "primary.500"]}
+              _hover={{
+                bg: ["primary.100", "primary.100", "primary.600", "primary.600"]
+              }}
+              marginRight='18px'
+              onClick={() => goToAddProfile(user.id)}
+            >
+              Add Profile
+            </Button> 
+            <Button marginRight='6px' onClick={onLogout}>
+              <Icon color="#C62828" w={8} h={8} as={MdPowerSettingsNew} />
+            </Button>
+            </>
 }
     </>
   )
@@ -155,7 +175,7 @@ const Header = (props) => {
           <MenuItem to="/messages">Messages </MenuItem>
           <MenuItem to="/recommandations">Recommandations </MenuItem>
           <MenuItem to="/questions">Q&A </MenuItem>
-          { isAuthenticated == "true" && profile !== null ?  authLinks : guestLinks}
+          { isAuthenticated == true ?  authLinks : guestLinks}
           <ColorModeSwitch />
         </Flex>
       </Box>
