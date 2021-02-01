@@ -1,10 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { useReducer , useContext} from 'react';
 import AppContext from './AppContext'
 import AppReducer from './AppReducer'
 
 import generalApi from '../../axios/GeneralApi'
 import {PERSIST_COMM_PROFILES,
-        PERSIST_CHOSEN_PROFILE} from '../types'
+        PERSIST_CHOSEN_PROFILE,
+        UPDATE_PROFILE} from '../types'
 import setAuthToken from '../../utils/setAuthToken'
 
 const AppState = props => {
@@ -14,6 +15,7 @@ const AppState = props => {
         chosenProfile: null
     }
 
+    
 
    const [state, dispatch] = useReducer(AppReducer, initialState)
 
@@ -53,20 +55,40 @@ const AppState = props => {
 
 }
 
+
 const updateProfile = async data => {
     
     setAuthToken(localStorage.token)
     console.log('Hey update here')
     try{
      
-        await generalApi.patch(`/api/profiles/${data._id}`,data)
+      const res = await generalApi.patch(`/api/profiles/${data._id}`,data)
+      dispatch({
+        type: UPDATE_PROFILE,
+        payload: res.data
+    })
 
     } catch(err){
         console.log(err.message)
     }
 
 }
+const addPhotoToPortfolio = async (data,id) => {
+    
+    setAuthToken(localStorage.token)
+    //console.log('Hey update here')
+    try{
+     
+        const res = await generalApi.patch(`/api/profiles/portfolio/${id}`,data)
+        dispatch({
+            type: UPDATE_PROFILE,
+            payload: res.data
+        })
+    } catch(err){
+        console.log(err.message)
+    }
 
+}
 
    return (
        <AppContext.Provider 
@@ -75,7 +97,8 @@ const updateProfile = async data => {
         chosenProfile: state.chosenProfile,
         getProfiles,
         getChosenProfile,
-        updateProfile
+        updateProfile,
+        addPhotoToPortfolio
        }}>
 
            {props.children}
