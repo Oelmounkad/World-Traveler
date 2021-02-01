@@ -7,6 +7,7 @@ import AuthState from './context/auth/AuthState'
 import Header from './components/Header';
 import Profile from './components/Profile';
 import AppState from './context/app/AppState';
+import AddProfile from './components/AddProfile';
 
 const App = () => {
   return (
@@ -22,7 +23,9 @@ const App = () => {
 
 
                       <Route exact path="/community" component={Community} />
+                      <Route exact path="/profile/add" component={AddProfile} />
                       <Route exact path="/profile/:id" component={Profile} />
+                      
 
 
               </Switch>
