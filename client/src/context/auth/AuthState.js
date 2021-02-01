@@ -29,6 +29,26 @@ const AuthState = props => {
 
    // Action :
 
+
+   const addProfile = async data => {
+    
+    setAuthToken(localStorage.token)
+    //console.log('Hey update here')
+    try{
+     
+    const res = await generalApi.post('/api/profiles',data)
+
+    dispatch({
+        type: PERSIST_PROFILE,
+        payload: res.data
+    })
+    
+
+    } catch(err){
+        console.log(err.message)
+    }
+
+}
    // Login User
    const login = async formData => {
 
@@ -103,6 +123,7 @@ const loadProfile = async userId => {
            login,
            signup,
            loadProfile,
+           addProfile,
            logout
        }}>
 
