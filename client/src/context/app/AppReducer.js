@@ -1,5 +1,6 @@
 import { PERSIST_COMM_PROFILES,
-        PERSIST_CHOSEN_PROFILE } from "../types";
+        PERSIST_CHOSEN_PROFILE,
+        UPDATE_PROFILE } from "../types";
 
 export default (state,action) => {
     switch(action.type){
@@ -14,6 +15,11 @@ export default (state,action) => {
                     ...state,
                     chosenProfile: action.payload
                 }
+                case UPDATE_PROFILE:
+            return{
+                ...state,
+                chosenProfile: action.payload
+            }
     }
 
 
