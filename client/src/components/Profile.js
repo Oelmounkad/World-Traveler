@@ -1,5 +1,6 @@
 import React,{useEffect,useContext,useState} from 'react'
-import {Box ,Input,Flex,Modal,ModalOverlay,ModalContent,Spinner,ModalCloseButton,ModalBody,ModalFooter, useDisclosure ,Text,Image, Icon, Spacer, Button, Heading, Textarea, Select} from "@chakra-ui/react"
+import {AddIcon} from "@chakra-ui/icons"
+import {Box ,Input,Flex,Modal,ModalOverlay,ModalContent,Spinner,ModalCloseButton,ModalBody,ModalFooter, useDisclosure ,Text,Image, Icon, Spacer, Button, Heading, Textarea, Select, IconButton, Center} from "@chakra-ui/react"
 import {MdEdit,MdPermContactCalendar,MdPersonAdd,MdChat, MdFavorite, MdGroupWork, MdLanguage, MdFitnessCenter, MdSave, MdKeyboardReturn} from 'react-icons/md'
 import AppContext from '../context/app/AppContext'
 import AuthContext from '../context/auth/AuthContext'
@@ -7,10 +8,12 @@ import moment from 'moment'
 
 const Profile = props => {
 
+    
+    let hiddenInput = null;
     const { match: { params } } = props 
 
     const appContext = useContext(AppContext)
-    const {getChosenProfile,chosenProfile,updateProfile} = appContext
+    const {getChosenProfile,chosenProfile,updateProfile,addPhotoToPortfolio} = appContext
 
     const authContext = useContext(AuthContext)
     const {user} = authContext
@@ -25,6 +28,8 @@ const Profile = props => {
     useEffect(() => {
         getChosenProfile(params.id)
     }, [])
+
+    
 
     useEffect(() => {
         if(chosenProfile !== null){
@@ -83,6 +88,46 @@ const Profile = props => {
                 [e.target.name]:e.target.value
         })
     }
+    
+    const [fileInputState, setFileInputState] = useState('')
+    const [previewSource, setPreviewSource] = useState('');
+    const [selectedFile, setSelectedFile] = useState();
+
+    const handleFileInputChange = (e) => {
+        const file = e.target.files[0];
+        if(file instanceof Blob){
+            previewFile(file);
+        setSelectedFile(file);
+        setFileInputState(e.target.value);
+        }else{
+            setPreviewSource('');
+            setFileInputState('');
+        }
+        
+    }
+
+    const previewFile = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviewSource(reader.result);
+        };
+    };
+
+    const addPhotoToPortfolioLocal = () => {
+        if (!selectedFile) return;
+        const reader = new FileReader();
+        reader.readAsDataURL(selectedFile);
+        reader.onloadend = () => {
+            let data = {portfolio:reader.result}
+            addPhotoToPortfolio(data,chosenProfile._id)
+            setFileInputState('')
+            setPreviewSource('')
+        }
+        
+        
+
+    }
 
     const onSubmit = e => {
         e.preventDefault()
@@ -91,6 +136,16 @@ const Profile = props => {
         updateProfile(editedProfile)
         setEditMode(false)
     }
+
+    const [showAddingButton, setShowAddingButton] = useState(true)
+
+    useEffect(() => {
+        if(previewSource !== ''){
+            setShowAddingButton(false)
+        }else{
+            setShowAddingButton(true)
+        }
+    }, [previewSource]);
 
     return (
         <>
@@ -201,9 +256,53 @@ const Profile = props => {
              {/** portfolio + desc */}
 
                 <Flex direction="column">
+                                        
+
+                                  {/** Preview of photo */}
+                                    {previewSource && (
+                                        <Center>
+                                        <Flex direction="column">
+                                        
+                                             <Image
+                                        src={previewSource}
+                                        alt="chosen"
+                                        boxSize="300px"
+                                    />
+                                     <Button width="200px" onClick={addPhotoToPortfolioLocal}  hidden={showAddingButton}>Add To portfolio</Button>
+                                        
+                                   </Flex></Center>
+                                )}
+                               
+                                
+
+
+                                        {/** Portfolio hidden add button */}
+                                                                        
+                                        <Input  
+                                        type="file" 
+                                        hidden
+                                        ref={el => hiddenInput = el}
+                                        id="fileInput"
+                                        class="form-control-file" 
+                                        onChange={handleFileInputChange}
+                                        value={fileInputState}
+                                        />
+                                        {/** Portfolio image load button */}
+                                        {chosenProfile.user == user.id && 
+                                        <IconButton
+                                            marginLeft="200"
+                                            variant="outline"
+                                            colorScheme="teal"
+                                            aria-label="Send email"
+                                            width="40px"
+                                            onClick={() => hiddenInput.click()}
+                                            icon={<AddIcon />}
+                                            />}
+                                            
+
                     <Flex overflowX="scroll" direction="row" marginLeft="200">
                     {chosenProfile.portfolio.length !== 0 && 
-                     chosenProfile.portfolio.map(image => 
+                     chosenProfile.portfolio.slice(0).reverse().map(image => 
                      
                         <Image cursor="pointer" onClick={() => handleOpen(image)}  m='1.5' marginBottom='2' boxSize="250px" src={image} alt="naruto" objectFit="cover" />
                     
