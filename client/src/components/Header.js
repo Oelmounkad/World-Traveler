@@ -1,6 +1,6 @@
 import React,{useContext} from "react";
 import { Link } from "react-router-dom";
-import { Box, Flex, Text, Button, Avatar, AvatarBadge, IconButton, Icon } from "@chakra-ui/react";
+import { Box, Flex, Text, Button, Avatar, AvatarBadge, IconButton, Icon,Image } from "@chakra-ui/react";
 import ColorModeSwitch from './ColorModeSwitch'
 import AuthContext from '../context/auth/AuthContext'
 import { MdPowerSettingsNew } from "react-icons/md";
@@ -67,7 +67,7 @@ const Header = (props) => {
 
   const authLinks = (
     <>
-    { profile !== null ? <>
+    { profile !== null && <>
     <Flex cursor="pointer" onClick={() => goToProfile(profile.user)} marginRight='7px'>
   <Avatar src={profile.profilePicture} />
   <Box ml="3">
@@ -80,7 +80,14 @@ const Header = (props) => {
 <Button marginRight='6px' onClick={onLogout}>
   <Icon color="#C62828" w={8} h={8} as={MdPowerSettingsNew} />
 </Button>
-</> : <> <Button
+</>
+}
+    </>
+  )
+  const guestLinks = (
+    
+    <>
+    {user !== null ? <> <Button
               size="sm"
               rounded="md"
               color={["primary.500", "primary.500", "white", "white"]}
@@ -96,12 +103,9 @@ const Header = (props) => {
             <Button marginRight='6px' onClick={onLogout}>
               <Icon color="#C62828" w={8} h={8} as={MdPowerSettingsNew} />
             </Button>
-            </>
-}
-    </>
-  )
-  const guestLinks = (
-    <>
+            </> :
+          
+          <>
     <MenuItem to="/login" isLast={false}>
             <Button
               size="sm"
@@ -128,6 +132,11 @@ const Header = (props) => {
               Create Account
             </Button>
           </MenuItem>
+          </>
+          
+          
+          }
+    
     </>
   )
 
@@ -152,12 +161,18 @@ const Header = (props) => {
       <Text fontSize="lg" fontWeight="bold">
         World Traveler
       </Text>
+     
+
     </Box>
+   {/* <Image boxSize="50px" src="https://res.cloudinary.com/oelmounkad/image/upload/v1612190965/headerpic_tmzbtw.png" alt="naruto" objectFit="cover" />*/}
       </Flex>
 
       <Box display={{ base: "block", md: "none" }} onClick={toggleMenu}>
         {show ? <CloseIcon /> : <MenuIcon />}
       </Box>
+
+      
+    
 
       <Box
         display={{ base: show ? "block" : "none", md: "block" }}
@@ -175,7 +190,7 @@ const Header = (props) => {
           <MenuItem to="/messages">Messages </MenuItem>
           <MenuItem to="/recommandations">Recommandations </MenuItem>
           <MenuItem to="/questions">Q&A </MenuItem>
-          { isAuthenticated == true ?  authLinks : guestLinks}
+          { isAuthenticated === "true" && profile !== null ? authLinks : guestLinks}
           <ColorModeSwitch />
         </Flex>
       </Box>
