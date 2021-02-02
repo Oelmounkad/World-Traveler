@@ -1,5 +1,5 @@
 import React,{useEffect,useContext,useState} from 'react'
-import {AddIcon} from "@chakra-ui/icons"
+import {AddIcon, EditIcon} from "@chakra-ui/icons"
 import {Box ,Input,Flex,Modal,ModalOverlay,ModalContent,Spinner,ModalCloseButton,ModalBody,ModalFooter, useDisclosure ,Text,Image, Icon, Spacer, Button, Heading, Textarea, Select, IconButton, Center} from "@chakra-ui/react"
 import {MdEdit,MdPermContactCalendar,MdPersonAdd,MdChat, MdFavorite, MdGroupWork, MdLanguage, MdFitnessCenter, MdSave, MdKeyboardReturn} from 'react-icons/md'
 import AppContext from '../context/app/AppContext'
@@ -9,11 +9,12 @@ import moment from 'moment'
 const Profile = props => {
 
     
-    let hiddenInput = null;
+    let hiddenInput = null
+    let hiddenInput2 = null
     const { match: { params } } = props 
 
     const appContext = useContext(AppContext)
-    const {getChosenProfile,chosenProfile,updateProfile,addPhotoToPortfolio} = appContext
+    const {getChosenProfile,chosenProfile,updateProfile,addPhotoToPortfolio,editProfilePhoto} = appContext
 
     const authContext = useContext(AuthContext)
     const {user} = authContext
@@ -90,8 +91,11 @@ const Profile = props => {
     }
     
     const [fileInputState, setFileInputState] = useState('')
+    const [fileInputState2, setFileInputState2] = useState('')
     const [previewSource, setPreviewSource] = useState('');
+    const [previewSource2, setPreviewSource2] = useState('');
     const [selectedFile, setSelectedFile] = useState();
+    const [selectedFile2, setSelectedFile2] = useState();
 
     const handleFileInputChange = (e) => {
         const file = e.target.files[0];
@@ -105,12 +109,46 @@ const Profile = props => {
         }
         
     }
+                        const handleFileInputChange2 = (e) => {
+                            const file = e.target.files[0];
+                            if(file instanceof Blob){
+                            previewFile2(file);
+                            setSelectedFile2(file);
+                            setFileInputState2(e.target.value);
+                            }else{
+                                setPreviewSource2('');
+                                setFileInputState2('');
+                            }
+                            
+                        }
+                        const handleSetProfilePhoto = () => {
+                            if (!selectedFile2) return;
+                            const reader = new FileReader();
+                            reader.readAsDataURL(selectedFile2);
+                            reader.onloadend = () => {
+                                let data = {profilePicture:reader.result}
+                                console.log('data : ',data)
+                                editProfilePhoto(data,chosenProfile._id)
+                                
+                                setFileInputState2('')
+                                setPreviewSource2('')
+                                
+                            }
+                        }
 
     const previewFile = (file) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
             setPreviewSource(reader.result);
+        };
+    };
+
+    const previewFile2 = (file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setPreviewSource2(reader.result);
         };
     };
 
@@ -155,6 +193,44 @@ const Profile = props => {
 
             {/** Profile pic + infos */}
                 <Flex direction="column" marginLeft='12'>
+
+                                        {/** Profile Photo add button */}
+                                                                        
+                                        <Input  
+                                        type="file" 
+                                        hidden
+                                        ref={el => hiddenInput2 = el}
+                                        id="fileInput"
+                                        class="form-control-file" 
+                                        onChange={handleFileInputChange2}
+                                        value={fileInputState2}
+                                        />
+                                        {/** Profile image load button */}
+                                        {chosenProfile.user == user.id && 
+                                        <IconButton
+                                            variant="outline"
+                                            colorScheme="teal"
+                                            aria-label="Send email"
+                                            width="40px"
+                                            onClick={() => hiddenInput2.click()}
+                                            icon={<EditIcon />}
+                                            />}
+
+                                            {/** Preview of profile photo */}
+                                    {previewSource2 && (
+                                        <Center>
+                                        <Flex direction="column">
+                                        
+                                             <Image
+                                        src={previewSource2}
+                                        alt="chosen"
+                                        boxSize="300px"
+                                    />
+                                     <Button width="200px" onClick={handleSetProfilePhoto} >Add Image</Button>
+                                        
+                                   </Flex></Center>
+                                )}
+
                     <Box border="2px" borderColor="gray.500">
                     
                         <Image border="2px" borderColor="black.100" m='1.5' marginBottom='2' boxSize="300px" src={chosenProfile.profilePicture} alt="naruto" objectFit="cover" />
@@ -361,6 +437,11 @@ const Profile = props => {
                                 </Box>
 
                     </Flex>
+
+                        <Flex direction="column">
+                             <Heading>City</Heading>
+                             <Input type="text" name="city" placeholder="City" value={editedProfile.city} onChange={onChangeEdited} />
+                        </Flex>
                         
                         <Flex direction="column">
                              <Heading>Address</Heading>
