@@ -90,6 +90,25 @@ const addPhotoToPortfolio = async (data,id) => {
 
 }
 
+const editProfilePhoto = async (data,id) => {
+    
+    setAuthToken(localStorage.token)
+    //console.log('Hey update here')
+    try{
+     
+        const res = await generalApi.patch(`/api/profiles/${id}`,data)
+        dispatch({
+            type: UPDATE_PROFILE,
+            payload: res.data
+        })
+    } catch(err){
+        console.log(err.message)
+    }
+
+}
+
+
+
    return (
        <AppContext.Provider 
        value={{
@@ -98,7 +117,8 @@ const addPhotoToPortfolio = async (data,id) => {
         getProfiles,
         getChosenProfile,
         updateProfile,
-        addPhotoToPortfolio
+        addPhotoToPortfolio,
+        editProfilePhoto
        }}>
 
            {props.children}
