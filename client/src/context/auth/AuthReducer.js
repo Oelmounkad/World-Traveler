@@ -13,13 +13,13 @@ export default (state,action) => {
 
         case LOGIN_SUCCESS:
             localStorage.setItem('token',action.payload.accessToken)
-            localStorage.setItem('isAuth','true')
+            localStorage.setItem('isAuth',"true")
             localStorage.setItem('user',JSON.stringify(action.payload) )
             return {
                 ...state,
                 user: action.payload,
                 token: action.payload.accessToken,
-                isAuthenticated: true,
+                isAuthenticated: "true",
                 error: null
             }
             case LOGIN_FAIL:
@@ -30,7 +30,7 @@ export default (state,action) => {
             return {
                 ...state,
                 token:null,
-                isAuthenticated: false,
+                isAuthenticated: 'false',
                 user: null,
                 error: action.payload
             }
@@ -47,7 +47,7 @@ export default (state,action) => {
                     return {
                         ...state,
                         token:null,
-                        isAuthenticated: false,
+                        isAuthenticated: "false",
                         user: null,
                         profile: null,
                         error: action.payload
