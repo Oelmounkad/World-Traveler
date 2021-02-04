@@ -6,6 +6,8 @@ const Recommandation = require('../models/Recommandation')
 const cloudinary = require('../utils/cloudinary')
 
 const auth = require('../middleware/auth')
+const User = require('../models/User')
+
 
 // POST /api/recommandations
 // @desc Adds a user's recommandation
@@ -18,15 +20,15 @@ router.post('/', auth, async (req, res) => {
         let img_url = []
         
     // upload images to cloudinary
-    for (let i = 0; i < req.body.pictures.length; i++) {
-        await cloudinary.uploader.upload(req.body.pictures[i])
+    
+        await cloudinary.uploader.upload(req.body.pictures)
         .then((result) => {
-            img_url.push(result.secure_url)
+            img_url = result.secure_url
         })
         .catch((e) => { 
             res.status(500).send(e)
         })
-      }
+
       
     //create the Recommandation 
      const recommandation = new Recommandation({
@@ -54,6 +56,9 @@ router.get ('/', async (req, res) => {
 
     try {
        const recommandations = await Recommandation.find()
+       .populate({path:'user' , populate: {
+            path: 'profile'
+       }})
        if (!recommandations) {
            return res.status(404).send('error : No recommandation found')
        }
