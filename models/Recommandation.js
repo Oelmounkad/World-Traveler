@@ -40,6 +40,6 @@ const Recommandation = mongoose.model('Recommandation', {
         type: Date,
         default: Date.now
     }
-})
+},'recommandations')
 
 module.exports = Recommandation
