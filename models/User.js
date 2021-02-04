@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 
 
 const User = mongoose.model('User', {
+    profile: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Profile'
+    },
     username : {
         type: String
     },
@@ -11,6 +15,6 @@ const User = mongoose.model('User', {
     password : {
         type : String    
     }  
-})
+},'users')
 
 module.exports = User
