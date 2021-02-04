@@ -6,6 +6,7 @@ const Profile = require('../models/Profile')
 const cloudinary = require('../utils/cloudinary')
 
 const auth = require('../middleware/auth')
+const User = require('../models/User')
 
 
 // // @route   POST api/profiles
@@ -36,6 +37,12 @@ router.post('/', auth, async (req, res) => {
         }
         profile.profilePicture = img_url
 
+        // Get the user
+        let user = await User.findById(req.sub)
+        user.profile = profile
+
+        user.save()
+        
         await profile.save()
         res.status(201).send(profile)
 
