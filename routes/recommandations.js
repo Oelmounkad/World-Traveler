@@ -21,7 +21,7 @@ router.post('/', auth, async (req, res) => {
         
     // upload images to cloudinary
     
-        await cloudinary.uploader.upload(req.body.pictures)
+        await cloudinary.uploader.upload(req.body.picture)
         .then((result) => {
             img_url = result.secure_url
         })
@@ -37,7 +37,7 @@ router.post('/', auth, async (req, res) => {
          city: req.body.city,
          location: req.body.location,
          theme: req.body.theme,
-         pictures: img_url,
+         picture: img_url,
      })
      
      await recommandation.save()
