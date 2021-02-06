@@ -9,7 +9,14 @@ import {PERSIST_COMM_PROFILES,
         CLEAR_FILTER_REC,
         FILTER_REC_LOC,
         FILTER_REC_THEME,
-        PERSIST_RECOMMANDATIONS} from '../types'
+        PERSIST_RECOMMANDATIONS,
+        PERSIST_QUESTIONS,
+        FILTER_QUE_LOC,
+        FILTER_QUE_THEME,
+        CLEAR_FILTER_QUE
+    
+    
+    } from '../types'
 import setAuthToken from '../../utils/setAuthToken'
 
 const AppState = props => {
@@ -175,6 +182,70 @@ const filterRecByTheme = text => {
     dispatch({type: CLEAR_FILTER_REC })
 }
 
+
+
+//-------------- Question Actions:-------------
+
+  //get all questions
+
+  const getAllQuestions = async () => {
+    try{
+ 
+        const res = await generalApi.get(`/api/questions`)
+        dispatch({
+            type: PERSIST_QUESTIONS,
+            payload: res.data
+        })
+    } catch(err){
+        console.log(err.message)
+    }
+}
+
+// Add question
+
+const addQuestion = async data => {
+   try {
+       setAuthToken(localStorage.token)
+       await generalApi.post('/api/questions',data)
+
+   } catch (error) {
+       console.log(error)
+   }
+}
+
+
+// Comment a question
+
+const commentQuestion = async (id,data) => {
+
+try {
+    setAuthToken(localStorage.token)
+    await generalApi.post(`/api/comments/questions/${id}`,data)
+
+} catch (error) {
+    console.log(error)
+}
+
+}
+
+
+// Filter Questions by Location
+
+const filterQueByLocation = text => {
+dispatch({type: FILTER_QUE_LOC , payload: text })
+}
+
+// Filter Questions by Theme
+
+const filterQueByTheme = text => {
+dispatch({type: FILTER_QUE_THEME , payload: text })
+}
+
+// Clear Filter Question
+const clearFilterQue = () => {
+dispatch({type: CLEAR_FILTER_QUE })
+}
+
    return (
        <AppContext.Provider 
        value={{
@@ -194,7 +265,13 @@ const filterRecByTheme = text => {
         commentRecommandation,
         filterRecByTheme,
         filterRecByLocation,
-        clearFilterRec
+        clearFilterRec,
+        getAllQuestions,
+        addQuestion,
+        commentQuestion,
+        filterQueByLocation,
+        filterQueByTheme,
+        clearFilterQue
        }}>
 
            {props.children}
