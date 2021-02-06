@@ -34,6 +34,28 @@ router.post('/recommandations/:id', auth, async (req, res) => {
     }
 })
 
+// GET /api/comments/recommandations
+// @desc Gets all the comments of a recommandation by ID
+// @access Public
+
+router.get ('/recommandations/:id', async (req, res) => {
+    const id = req.params.id
+
+    try {
+       const recommandation = await Recommandation.findById(id)
+       const commentsIds = recommandation.comments
+
+        const comments = await Comment.find({ _id : commentsIds })
+       if (!comments) {
+           return res.status(404).send('error : No comment found')
+       }
+       res.send(comments)
+    }catch(e) {
+        res.status(500).send(e) 
+    }
+})
+
+
 // POST /api/comments/questions/:id
 // @desc Adds a comment to a question
 // @access Private
@@ -58,6 +80,8 @@ router.post('/questions/:id', auth, async (req, res) => {
         res.status(500).send(e)
     }
 })
+
+
 
 
 
