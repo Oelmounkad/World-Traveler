@@ -17,16 +17,17 @@ router.post('/', auth, async (req, res) => {
 
     try {
         
-        let img_url = []
+        let img_url = ""
         
     // upload images to cloudinary
+    console.log("zebi : ",req.body.picture)
     
         await cloudinary.uploader.upload(req.body.picture)
         .then((result) => {
             img_url = result.secure_url
         })
         .catch((e) => { 
-            res.status(500).send(e)
+            res.status(500).send('zebiiii')
         })
 
       
@@ -41,7 +42,7 @@ router.post('/', auth, async (req, res) => {
      })
      
      await recommandation.save()
-     res.status(201).send(recommandation)
+     res.send(recommandation)
  
      }catch(e) {
         res.status(500).send(e)
