@@ -136,7 +136,7 @@ const editProfilePhoto = async (data,id) => {
        try {
            setAuthToken(localStorage.token)
            await generalApi.post('/api/recommandations',data)
-           
+
        } catch (error) {
            console.log(error)
        }
