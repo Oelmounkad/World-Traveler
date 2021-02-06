@@ -14,25 +14,26 @@ const auth = require('../middleware/auth')
 router.post('/', auth, async (req, res) => {
 
     try {   
-        let img_url = []
+
+        let img_url = ""
         
     // upload images to cloudinary
-    for (let i = 0; i < req.body.pictures.length; i++) {
-        await cloudinary.uploader.upload(req.body.pictures[i])
+    
+        await cloudinary.uploader.upload(req.body.picture)
         .then((result) => {
-            img_url.push(result.secure_url)
+            img_url = result.secure_url
         })
         .catch((e) => { 
             res.status(500).send(e)
-        })
-      }      
+        })  
+
     //create the question 
      const question = new Question({
          user: req.sub,
          description: req.body.description,
          city: req.body.city,
          theme: req.body.theme,
-         pictures: img_url,
+         picture: img_url,
      })
 
      await question.save()
@@ -50,7 +51,21 @@ router.post('/', auth, async (req, res) => {
 router.get ('/', async (req, res) => {
 
     try {
-       const questions = await Question.find()
+       const questions = await Question.find() 
+       .populate([
+           {path:'user' , populate: {
+            path: 'profile'
+       }
+    },
+    {path: 'comments' , populate: {
+        path: 'user', populate: {
+            path: 'profile'
+        }
+    }}
+    
+])
+.sort({date: 'desc'})
+
        if (!questions) {
            return res.status(404).send('error : No question found')
        }
