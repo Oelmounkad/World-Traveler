@@ -20,14 +20,13 @@ router.post('/', auth, async (req, res) => {
         let img_url = ""
         
     // upload images to cloudinary
-    console.log("zebi : ",req.body.picture)
     
         await cloudinary.uploader.upload(req.body.picture)
         .then((result) => {
             img_url = result.secure_url
         })
         .catch((e) => { 
-            res.status(500).send('zebiiii')
+            res.status(500).send(e)
         })
 
       
