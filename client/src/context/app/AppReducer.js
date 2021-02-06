@@ -4,7 +4,11 @@ import { PERSIST_COMM_PROFILES,
         CLEAR_FILTER_REC,
         FILTER_REC_LOC,
         FILTER_REC_THEME,
-        PERSIST_RECOMMANDATIONS } from "../types";
+        PERSIST_RECOMMANDATIONS,
+        PERSIST_QUESTIONS,
+        CLEAR_FILTER_QUE,
+        FILTER_QUE_THEME,
+        FILTER_QUE_LOC} from "../types";
 
 export default (state,action) => {
     switch(action.type){
@@ -29,6 +33,11 @@ export default (state,action) => {
                 ...state,
                 recommandations: action.payload
             }
+            case PERSIST_QUESTIONS:
+            return{
+                ...state,
+                questions: action.payload
+            }
             case FILTER_REC_LOC:
                 return {
                     ...state,
@@ -46,10 +55,33 @@ export default (state,action) => {
                         })
                     }
             case CLEAR_FILTER_REC:
-                return {
-                    ...state,
-                    filteredRecommandations: null
-                } 
+                     return {
+                         ...state,
+                         filteredRecommandations: null
+                     } 
+
+                                        case FILTER_QUE_LOC:
+                                    return {
+                                        ...state,
+                                        filteredQuestions: state.questions.filter(rec => {
+                                            const regex = new RegExp(`${action.payload}`, 'gi')
+                                            return rec.city.match(regex) || rec.location.match(regex)
+                                        })
+                                    }
+                                case FILTER_QUE_THEME:
+                                        return {
+                                            ...state,
+                                            filteredQuestions: state.questions.filter(rec => {
+                                                const regex = new RegExp(`${action.payload}`, 'gi')
+                                                return rec.theme.match(regex)
+                                            })
+                                        }
+                                case CLEAR_FILTER_QUE:
+                                    return {
+                                        ...state,
+                                        filteredQuestions: null
+                                    } 
+           
     }
 
 
