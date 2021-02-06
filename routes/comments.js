@@ -124,6 +124,28 @@ router.get ('/questions/:id', async (req, res) => {
     }
 })
 
+// DELETE /api/comments/recommandations
+// @desc Delete a recommandation's comment
+// @access Private
+ 
+router.delete ('/questions/:id', auth, async (req, res) => {
+    const _id = req.params.id
+ 
+    try {
+        const comment = await Comment.findById(_id)
+        if(!comment) {
+            return res.status(404).send('Comment does not exist !')
+        }
+        if(comment.user.toString() !== req.sub ) {
+            return res.status(401).send('Not authorized to delete this comment !')
+        }
+        const commentDeleted = await Comment.findByIdAndDelete(_id)
+        res.send(commentDeleted)
+    }catch(e) {
+        res.status(500).send(e)
+    }
+})
+
 
 
 module.exports = router
