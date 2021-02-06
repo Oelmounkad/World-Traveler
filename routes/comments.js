@@ -55,7 +55,7 @@ router.get ('/recommandations/:id', async (req, res) => {
     }
 })
 
-// DELETE /api/comments/recommandations
+// DELETE /api/comments/recommandations/:id
 // @desc Delete a recommandation's comment
 // @access Private
  
@@ -103,8 +103,8 @@ router.post('/questions/:id', auth, async (req, res) => {
     }
 })
 
-// GET /api/comments/recommandations
-// @desc Gets all the comments of a recommandation by ID
+// GET /api/comments/questions/:id
+// @desc Gets all the comments of a question by ID
 // @access Public
 
 router.get ('/questions/:id', async (req, res) => {
@@ -124,8 +124,8 @@ router.get ('/questions/:id', async (req, res) => {
     }
 })
 
-// DELETE /api/comments/recommandations
-// @desc Delete a recommandation's comment
+// DELETE /api/comments/questions
+// @desc Delete a question's comment
 // @access Private
  
 router.delete ('/questions/:id', auth, async (req, res) => {
@@ -146,6 +146,42 @@ router.delete ('/questions/:id', auth, async (req, res) => {
     }
 })
 
+// The like and unlike routes are for both recommandations's comments and questions's comments
 
+// PATCH /api/comments/like/:id
+// @desc Likes a comment
+// @access Private
+
+router.patch('/like/:id', auth , async (req,res) => {
+
+    try {
+        let comment = await Comment.findById(req.params.id)
+        let currentLikes = comment.likes
+        let newLikes = currentLikes + 1
+
+        const updatedComment = {
+            likes: newLikes
+        }
+        // Check if the comment exists in the database
+        if(!comment) 
+               return res.status(404).send({error :'Comment not found !'})
+
+        let l = comment.likers.filter( liker => req.sub == liker)
+
+        if(l.length === 0 ) {
+            // Update the comment
+            comment = await Comment.findByIdAndUpdate(req.params.id,
+           {$set : updatedComment},
+           {new: true})
+           comment.likers.push(req.sub)
+           comment.save()  
+           res.send(comment)} 
+           else{
+            res.status(401).send({ error : 'you already liked this comment !'})
+                }     
+    }catch (e) {
+        res.status(500).send(e)
+    }
+})
 
 module.exports = router
