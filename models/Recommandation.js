@@ -10,7 +10,8 @@ const Recommandation = mongoose.model('Recommandation', {
         required : true
     },
     picture : {
-        type : String
+        type : String,
+        required:true
     },
     theme : {
         type : String,
