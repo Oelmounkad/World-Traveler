@@ -56,9 +56,19 @@ router.get ('/', async (req, res) => {
 
     try {
        const recommandations = await Recommandation.find()
-       .populate({path:'user' , populate: {
+       .populate([
+           {path:'user' , populate: {
             path: 'profile'
-       }}).sort({date: 'desc'})
+       }
+    },
+    {path: 'comments' , populate: {
+        path: 'user', populate: {
+            path: 'profile'
+        }
+    }}
+    
+])
+    .sort({date: 'desc'})
        if (!recommandations) {
            return res.status(404).send('error : No recommandation found')
        }
