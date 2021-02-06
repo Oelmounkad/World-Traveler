@@ -55,6 +55,27 @@ router.get ('/recommandations/:id', async (req, res) => {
     }
 })
 
+// GET /api/comments/recommandations
+// @desc Gets all the comments of a recommandation by ID
+// @access Public
+
+router.get ('/questions/:id', async (req, res) => {
+    const id = req.params.id
+
+    try {
+       const question = await Question.findById(id)
+       const commentsIds = question.comments
+
+        const comments = await Comment.find({ _id : commentsIds })
+       if (!comments) {
+           return res.status(404).send('error : No comment found')
+       }
+       res.send(comments)
+    }catch(e) {
+        res.status(500).send(e) 
+    }
+})
+
 
 // POST /api/comments/questions/:id
 // @desc Adds a comment to a question
