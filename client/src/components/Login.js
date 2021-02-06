@@ -36,7 +36,7 @@ const Login = props => {
                     setPassword('')
                 }
 
-                if(isAuthenticated == true){
+                if(isAuthenticated == "true"){
                       props.history.push('/community')
                 }
                
