@@ -9,6 +9,7 @@ import Profile from './components/Profile';
 import AppState from './context/app/AppState';
 import AddProfile from './components/AddProfile';
 import Recommandations from './components/Recommandations';
+import Questions from './components/Questions';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
 
                       <Route exact path="/community" component={Community} />
                       <Route exact path="/recommandations" component={Recommandations} />
+                      <Route exact path="/questions" component={Questions} />
                       <Route exact path="/profile/add" component={AddProfile} />
                       <Route exact path="/profile/:id" component={Profile} />
                       
