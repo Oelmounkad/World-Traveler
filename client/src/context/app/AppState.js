@@ -143,6 +143,20 @@ const editProfilePhoto = async (data,id) => {
    }
 
 
+// Comment a recommandation
+
+const commentRecommandation = async (id,data) => {
+
+    try {
+        setAuthToken(localStorage.token)
+        await generalApi.post(`/api/comments/recommandations/${id}`,data)
+
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
 
    // Filter Recommandations by Location
 
@@ -177,6 +191,7 @@ const filterRecByTheme = text => {
         editProfilePhoto,
         getAllRecommandations,
         addRecommandation,
+        commentRecommandation,
         filterRecByTheme,
         filterRecByLocation,
         clearFilterRec
