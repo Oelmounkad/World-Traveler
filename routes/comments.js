@@ -184,4 +184,41 @@ router.patch('/like/:id', auth , async (req,res) => {
     }
 })
 
+// PATCH /api/comments/unlike/:id
+// @desc Unlikes a comment
+// @access Private
+
+router.patch('/unlike/:id', auth , async (req,res) => {
+
+    try {
+        let comment = await Comment.findById(req.params.id)
+        let currentLikes = comment.likes
+        let newLikes = currentLikes - 1
+
+        const updatedComment = {
+            likes: newLikes
+        }
+        // Check if the comment exists in the database
+        if(!comment) 
+               return res.status(404).send('Comment not found !')
+
+            let l = comment.likers.filter( liker => req.sub == liker)
+
+        if(l.length !== 0 ) {
+            // Update the comment
+            comment = await Comment.findByIdAndUpdate(req.params.id,
+           {$set : updatedComment},
+           {new: true})
+           comment.likers.splice(comment.likers.indexOf(req.sub), 1)
+           comment.save()  
+            res.send(comment)
+                                            } 
+           else{
+            res.status(401).json('you already dont like this comment !')
+                }      
+    } catch (e) {
+        res.status(500).send(e)
+    } 
+})
+
 module.exports = router
