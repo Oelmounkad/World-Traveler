@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Comment = mongoose.model('Comment',{
     user: {
         type: mongoose.Types.ObjectId,
-        ref: 'user'
+        ref: 'User'
     },
     description: {
         type: String,
