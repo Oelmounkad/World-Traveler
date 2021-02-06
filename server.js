@@ -20,6 +20,8 @@ app.use('/api/profiles',require('./routes/profiles'))
 app.use('/api/recommandations',require('./routes/recommandations'))
 // Questions routes
 app.use('/api/questions',require('./routes/questions')) 
+// Comments routes
+app.use('/api/comments',require('./routes/comments')) 
 
 //Serve static assets in production (to uncomment in Production)
 

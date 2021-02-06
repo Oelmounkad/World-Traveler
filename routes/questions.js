@@ -82,7 +82,7 @@ router.delete ('/:id', auth, async (req, res) => {
     }
 }) 
 
-// PATCH /api/questions/:id
+// PATCH /api/questions/like/:id
 // @desc Likes a question
 // @access Private
 
@@ -118,7 +118,7 @@ router.patch('/like/:id', auth , async (req,res) => {
     }
 })
 
-// PATCH /api/questions/:id
+// PATCH /api/questions/like/:id
 // @desc Unlikes a Question
 // @access Private
 
@@ -132,7 +132,7 @@ router.patch('/unlike/:id', auth , async (req,res) => {
         const updatedQuestion = {
             likes: newLikes
         }
-        // Check if the post exists in the database
+        // Check if the question exists in the database
         if(!question) 
                return res.status(404).send('Question not found !')
 
