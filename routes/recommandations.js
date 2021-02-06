@@ -90,7 +90,7 @@ router.delete ('/:id', auth, async (req, res) => {
     }
 }) 
 
-// PATCH /api/recommandations/:id
+// PATCH /api/recommandations/like/:id
 // @desc Likes a Recommandation
 // @access Private
 
@@ -126,7 +126,7 @@ router.patch('/like/:id', auth , async (req,res) => {
     }
 })
 
-// PATCH /api/recommandations/:id
+// PATCH /api/recommandations/unlike/:id
 // @desc Unlikes a Recommandation
 // @access Private
 
@@ -140,7 +140,7 @@ router.patch('/unlike/:id', auth , async (req,res) => {
         const updatedRecommandation = {
             likes: newLikes
         }
-        // Check if the post exists in the database
+        // Check if the recommandation exists in the database
         if(!recommandation) 
                return res.status(404).send('Recommandation not found !')
 
