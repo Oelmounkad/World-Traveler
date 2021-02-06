@@ -55,24 +55,25 @@ router.get ('/recommandations/:id', async (req, res) => {
     }
 })
 
-// GET /api/comments/recommandations
-// @desc Gets all the comments of a recommandation by ID
-// @access Public
-
-router.get ('/questions/:id', async (req, res) => {
-    const id = req.params.id
-
+// DELETE /api/comments/recommandations
+// @desc Delete a recommandation's comment
+// @access Private
+ 
+router.delete ('/recommandations/:id', auth, async (req, res) => {
+    const _id = req.params.id
+ 
     try {
-       const question = await Question.findById(id)
-       const commentsIds = question.comments
-
-        const comments = await Comment.find({ _id : commentsIds })
-       if (!comments) {
-           return res.status(404).send('error : No comment found')
-       }
-       res.send(comments)
+        const comment = await Comment.findById(_id)
+        if(!comment) {
+            return res.status(404).send('Comment does not exist !')
+        }
+        if(comment.user.toString() !== req.sub ) {
+            return res.status(401).send('Not authorized to delete this comment !')
+        }
+        const commentDeleted = await Comment.findByIdAndDelete(_id)
+        res.send(commentDeleted)
     }catch(e) {
-        res.status(500).send(e) 
+        res.status(500).send(e)
     }
 })
 
@@ -102,7 +103,26 @@ router.post('/questions/:id', auth, async (req, res) => {
     }
 })
 
+// GET /api/comments/recommandations
+// @desc Gets all the comments of a recommandation by ID
+// @access Public
 
+router.get ('/questions/:id', async (req, res) => {
+    const id = req.params.id
+
+    try {
+       const question = await Question.findById(id)
+       const commentsIds = question.comments
+
+        const comments = await Comment.find({ _id : commentsIds })
+       if (!comments) {
+           return res.status(404).send('error : No comment found')
+       }
+       res.send(comments)
+    }catch(e) {
+        res.status(500).send(e) 
+    }
+})
 
 
 
