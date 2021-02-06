@@ -9,9 +9,9 @@ const Question = mongoose.model('Question', {
         type : String,
         required : true
     },
-    pictures : [{
+    picture : {
         type : String
-    }],
+    },
     theme : {
         type : String,
         required : true
