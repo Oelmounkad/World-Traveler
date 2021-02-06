@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, Divider, Flex, Heading, Image, Input, Text } from '@chakra-ui/react'
+import { Avatar, Badge, Box, Button, Divider, Flex, Heading, Image, Input, Text } from '@chakra-ui/react'
 import React,{useState,useContext} from 'react'
 import moment from 'moment'
 import AppContext from '../context/app/AppContext'
@@ -7,7 +7,7 @@ import AppContext from '../context/app/AppContext'
 const Recommandation = ({rec}) => {
 
   const appContext = useContext(AppContext)
-  const {commentRecommandation} = appContext
+  const {commentRecommandation,getAllRecommandations} = appContext
 
 
   const [recComment, setRecComment] = useState('')
@@ -15,7 +15,14 @@ const Recommandation = ({rec}) => {
   const onSubmitComment = e => {
     e.preventDefault()
     if(recComment !== ''){
-      commentRecommandation(rec._id,recComment)
+      let data = {
+        description : recComment
+      }
+      commentRecommandation(rec._id,data).then(_ => {
+        getAllRecommandations()
+        setRecComment('')
+      
+      })
     }
   }
     return (
@@ -99,21 +106,25 @@ const Recommandation = ({rec}) => {
             <br />
             {rec.comments.length !== 0 && rec.comments.map(comment => 
               
-              <Flex alignItems="center">
-                <Avatar src="d" />
+              <Flex alignItems="center" mb='2'>
+                <Avatar src={comment.user.profile && comment.user.profile.profilePicture} />
                 <Box ml="3" mr='3'>
                     <Text color="white" fontWeight="bold">
-                    Commenter
+                    {comment.user.profile && comment.user.profile.fullName}
                     </Text>
                 </Box>
-                <Text>Comment</Text>
+                <Text>{comment.description}</Text>
               </Flex>
               
               
               ) }
+              
           <form onSubmit={onSubmitComment}>
-            <Input type="text" value={recComment} onChange={e => setRecComment(e.target.value)} />
-            </form>
+            <Flex direction="row">
+                <Input type="text" value={recComment} placeholder="Enter your comment..." onChange={e => setRecComment(e.target.value)} mr='2' />
+                <Button type="submit">Comment</Button>
+             </Flex>
+          </form>
       </Flex>
       </>
     )
