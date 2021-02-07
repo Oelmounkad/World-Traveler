@@ -39,7 +39,7 @@ router.get('/', auth, async (req, res) => {
         const meetingsBis = await Meeting.find({user_2 : req.sub})
 
         Array.prototype.push.apply(meetings, meetingsBis)
-        
+
         if (!meetings) {
             return res.status(404).send('error : No meeting found')
         }
@@ -49,4 +49,24 @@ router.get('/', auth, async (req, res) => {
     }
 })
 
+// PATCH /api/meetings/
+// @desc Update a meeting statut
+// @access Private
+
+router.patch('/:id', auth, async (req, res) => {
+
+    try {
+        const meeting = await Meeting.findById(req.params.id)
+        
+        if (!meeting) {
+            return res.status(404).send('error : No meeting found')
+        }
+        if(meeting.user_1.toString() !== req.sub ) {
+            return res.status(401).send('Not authorized to delete this recommandation !')
+        }
+        res.send(meeting)
+     }catch(e) {
+        res.status(500).send(e)
+    }
+})
 module.exports = router
