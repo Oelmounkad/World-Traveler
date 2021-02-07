@@ -22,6 +22,8 @@ app.use('/api/recommandations',require('./routes/recommandations'))
 app.use('/api/questions',require('./routes/questions')) 
 // Comments routes
 app.use('/api/comments',require('./routes/comments')) 
+// Meetings routes
+app.use('/api/meetings',require('./routes/meetings'))
 
 //Serve static assets in production (to uncomment in Production)
 
