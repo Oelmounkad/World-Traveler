@@ -1,21 +1,25 @@
 const mongoose = require('mongoose')
 
-const Meeting = mongoose.Meeting('Meeting',{
+const Meeting = mongoose.model('Meeting',{
     user_1 : {
         type : mongoose.Types.ObjectId,
         ref : 'User'
     },
     user_2 : {
         type : mongoose.Types.ObjectId,
-        ref : 'User'
+        ref : 'User' 
     },
     location : {
-        type : String
+        type : String,
+        required : true
     },
     time : {
-        type : String
+        type : String,
+        required : true
     },
     statut : {
         type : String
     }
 })
+
+module.exports = Meeting
