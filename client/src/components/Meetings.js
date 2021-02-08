@@ -33,18 +33,27 @@ const Meetings = () => {
                 <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
             <Box p="4">
-            <Avatar
+            {meeting.hoster._id === user.id && 
+         <Avatar
+      size="xl"
+      name="Kola Tioluwani"
+      src={meeting.requester.profile.profilePicture}
+    />  }  
+
+    {meeting.requester._id === user.id && 
+    
+    <Avatar
       size="xl"
       name="Kola Tioluwani"
       src={meeting.hoster.profile.profilePicture}
-    />  
+    />}
             </Box>
       <Box p="6">
         
         <Box
          
         >
-          Fullname : {meeting.hoster.profile.fullName}
+          Fullname : {meeting.requester._id === user.id ? meeting.hoster.profile.fullName : meeting.requester.profile.fullName}
         </Box>
         <Box
             color="gray.500"
@@ -53,8 +62,13 @@ const Meetings = () => {
             fontSize="xs"
             textTransform="uppercase"
           >
-          <Text> Languages: {meeting.hoster.profile.languages.length !== 0 ? 
-          meeting.hoster.profile.languages.map((language,i) => meeting.hoster.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text>
+              {meeting.requester._id === user.id ? 
+             <Text> Languages: {meeting.hoster.profile.languages.length !== 0 ? 
+                meeting.hoster.profile.languages.map((language,i) => meeting.hoster.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text> : 
+                <Text> Languages: {meeting.requester.profile.languages.length !== 0 ? 
+                    meeting.requester.profile.languages.map((language,i) => meeting.requester.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text>
+            }
+         
           </Box>
 
       </Box>
@@ -109,18 +123,30 @@ const Meetings = () => {
                 <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
             <Box p="4">
-            <Avatar
+            {meeting.hoster._id === user.id && 
+         <Avatar
+      size="xl"
+      name="Kola Tioluwani"
+      src={meeting.requester.profile.profilePicture}
+    />  }  
+
+    {meeting.requester._id === user.id && 
+    
+    <Avatar
       size="xl"
       name="Kola Tioluwani"
       src={meeting.hoster.profile.profilePicture}
-    />  
+    />}
+    
+
+  
             </Box>
       <Box p="6">
         
         <Box
          
         >
-          Fullname : {meeting.hoster.profile.fullName}
+          Fullname : {meeting.requester._id === user.id ? meeting.hoster.profile.fullName : meeting.requester.profile.fullName}
         </Box>
         <Box
             color="gray.500"
@@ -129,8 +155,12 @@ const Meetings = () => {
             fontSize="xs"
             textTransform="uppercase"
           >
-          <Text> Languages: {meeting.hoster.profile.languages.length !== 0 ? 
-          meeting.hoster.profile.languages.map((language,i) => meeting.hoster.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text>
+         {meeting.requester._id === user.id ? 
+             <Text> Languages: {meeting.hoster.profile.languages.length !== 0 ? 
+                meeting.hoster.profile.languages.map((language,i) => meeting.hoster.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text> : 
+                <Text> Languages: {meeting.requester.profile.languages.length !== 0 ? 
+                    meeting.requester.profile.languages.map((language,i) => meeting.requester.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text>
+            }
           </Box>
 
       </Box>
@@ -162,7 +192,7 @@ const Meetings = () => {
       
       <Flex direction="row" alignItems="center" paddingRight="2">
       <Badge mr='2'>Meeting accepted</Badge>
-      <Button colorScheme="green">Finish Meeting!</Button>
+      <Button onClick={() => finishMeeting(meeting._id).then(_ => getUserMeetings()) } colorScheme="green">Finish Meeting!</Button>
       </Flex>
     
       
@@ -185,18 +215,27 @@ const Meetings = () => {
                 <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
             <Box p="4">
-            <Avatar
+            {meeting.hoster._id === user.id && 
+         <Avatar
+      size="xl"
+      name="Kola Tioluwani"
+      src={meeting.requester.profile.profilePicture}
+    />  }  
+
+    {meeting.requester._id === user.id && 
+    
+    <Avatar
       size="xl"
       name="Kola Tioluwani"
       src={meeting.hoster.profile.profilePicture}
-    />  
+    />}
             </Box>
       <Box p="6">
         
         <Box
          
         >
-          Fullname : {meeting.hoster.profile.fullName}
+          Fullname : {meeting.requester._id === user.id ? meeting.hoster.profile.fullName : meeting.requester.profile.fullName}
         </Box>
         <Box
             color="gray.500"
@@ -205,8 +244,12 @@ const Meetings = () => {
             fontSize="xs"
             textTransform="uppercase"
           >
-          <Text> Languages: {meeting.hoster.profile.languages.length !== 0 ? 
-          meeting.hoster.profile.languages.map((language,i) => meeting.hoster.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text>
+         {meeting.requester._id === user.id ? 
+             <Text> Languages: {meeting.hoster.profile.languages.length !== 0 ? 
+                meeting.hoster.profile.languages.map((language,i) => meeting.hoster.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text> : 
+                <Text> Languages: {meeting.requester.profile.languages.length !== 0 ? 
+                    meeting.requester.profile.languages.map((language,i) => meeting.requester.profile.languages.length == i + 1 ? language : language + '\u2022') : 'Not Specified' }</Text>
+            }
           </Box>
 
       </Box>
