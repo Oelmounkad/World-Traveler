@@ -192,7 +192,7 @@ const Profile = props => {
         <Flex direction="row">
 
             {/** Profile pic + infos */}
-                <Flex direction="column" marginLeft='12'>
+                <Flex direction="column" marginLeft='12' mb='18'>
 
                                         {/** Profile Photo add button */}
                                                                         

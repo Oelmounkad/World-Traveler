@@ -1,16 +1,22 @@
 import React,{useState,useEffect,useContext} from 'react'
 import {useHistory} from 'react-router-dom'
-import { Box,Avatar,Spacer,Button,IconButton,Text,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center } from "@chakra-ui/react"
+import { useDisclosure,Box,Avatar,Spacer,Button,IconButton,Text,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Modal } from "@chakra-ui/react"
 import { MdMyLocation, MdPermContactCalendar,MdSearch} from 'react-icons/md'
 import moment from 'moment'
 import AppContext from '../context/app/AppContext'
 
 const Community = () => {
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
     const history = useHistory()
     
     const appContext = useContext(AppContext)
-    const {communityProfiles,getProfiles} = appContext
+    const {communityProfiles,getProfiles,requestMeeting} = appContext
+
+    const [modalSubject, setModalSubject] = useState({})
+    const [message, setMessage] = useState('')
+    const [time, setTime] = useState('')
 
     const goToProfile = (id) => {
       history.push(`/profile/${id}`)
@@ -36,6 +42,22 @@ const Community = () => {
     useEffect(() => {
         getProfiles()
     }, []);
+
+    const handleRequestMeeting = e => {
+        e.preventDefault()
+        if(message !== ''){
+            let data = {
+                location: modalSubject.city,
+                message: message,
+                time: time,
+                statut : "pending"
+            }
+            requestMeeting(modalSubject.user,data)
+            .then(_ => {
+              history.push(`/meetings`)
+            })
+        }else alert('you must enter a meesage !')
+    }
     
     return (
         <>
@@ -86,6 +108,32 @@ const Community = () => {
 
             </Flex>
             </Center>
+           <form> <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        
+        <ModalContent>
+          <ModalHeader>Contact {modalSubject.name} !</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Message</FormLabel>
+              <Input value={message}  placeholder="Send a message!" onChange={e => setMessage(e.target.value)} />
+              <FormLabel>Time</FormLabel>
+              <Input value={time}  placeholder="Time of your meeting ! format : (DD-MM-YYY)" onChange={e => setTime(e.target.value)} />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button type="submit" onClick={handleRequestMeeting} colorScheme="blue" mr={3}>
+              Send!
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal></form>
 
 <br />
 {communityProfiles.length !== 0 && 
@@ -93,7 +141,7 @@ communityProfiles.map(profile => <>
 
 <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
-            <Box paddingLeft="4">
+            <Box p="4">
             <Avatar
       size="xl"
       name="Kola Tioluwani"
@@ -146,7 +194,10 @@ communityProfiles.map(profile => <>
       <Flex direction="column" alignItems="center" paddingRight="2">
       <Button onClick={() => goToProfile(profile.user)} colorScheme="blue">See profile</Button>
       <br />
-      <Button colorScheme="blue">Contact</Button>
+      <Button onClick={() => {
+        setModalSubject(profile)
+        onOpen()
+      } } colorScheme="blue">Contact</Button>
       </Flex>
     </Flex>
 

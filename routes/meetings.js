@@ -13,18 +13,19 @@ router.post('/:id', auth, async (req, res) => {
 
     try {
         const meeting = new Meeting({
-            user_1 : req.sub,
-            user_2 : req.params.id,
+            requester : req.sub,
+            hoster : req.params.id,
             location : req.body.location,
             time : req.body.time,
+            message: req.body.message,
             statut : req.body.statut
         })
 
-        await meeting.save()
+        const resu = await meeting.save()
         
-        res.status(201).send(meeting)
+        res.send(resu)
      }catch(e) {
-        res.status(500).send(e)
+        res.status(500).send(e.message)
     }
 })
 
@@ -35,9 +36,10 @@ router.post('/:id', auth, async (req, res) => {
 router.get('/', auth, async (req, res) => {
 
     try {
-        const meetings = await Meeting.find({user_1 : req.sub })
-        const meetingsBis = await Meeting.find({user_2 : req.sub})
-
+        const meetings = await Meeting.find({requester : req.sub })
+        .populate([{path: 'hoster' , populate: {path: 'profile'}},{path: 'requester' , populate: {path: 'profile'}}])
+        const meetingsBis = await Meeting.find({hoster : req.sub})
+        .populate([{path: 'hoster' , populate: {path: 'profile'}},{path: 'requester' , populate: {path: 'profile'}}])
         Array.prototype.push.apply(meetings, meetingsBis)
 
         if (!meetings) {
@@ -61,7 +63,7 @@ router.patch('/:id', auth, async (req, res) => {
         if (!meeting) {
             return res.status(404).send('error : No meeting found')
         }
-        if(meeting.user_1.toString() !== req.sub ) {
+        if(meeting.requester.toString() !== req.sub ) {
             return res.status(401).send('Not authorized to delete this recommandation !')
         }
         res.send(meeting)

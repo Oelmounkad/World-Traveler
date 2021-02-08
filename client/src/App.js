@@ -10,6 +10,7 @@ import AppState from './context/app/AppState';
 import AddProfile from './components/AddProfile';
 import Recommandations from './components/Recommandations';
 import Questions from './components/Questions';
+import Meetings from './components/Meetings';
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
                       <Route exact path="/profile/add" component={AddProfile} />
                       <Route exact path="/profile/:id" component={Profile} />
                       
+                      <Route exact path="/meetings" component={Meetings} />
 
 
               </Switch>

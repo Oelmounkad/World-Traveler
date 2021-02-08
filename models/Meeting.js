@@ -1,21 +1,22 @@
 const mongoose = require('mongoose')
 
 const Meeting = mongoose.model('Meeting',{
-    user_1 : {
+    requester : {
         type : mongoose.Types.ObjectId,
         ref : 'User'
     },
-    user_2 : {
+    hoster : {
         type : mongoose.Types.ObjectId,
         ref : 'User' 
     },
     location : {
-        type : String,
-        required : true
+        type : String
+    },
+    message : {
+        type : String
     },
     time : {
-        type : String,
-        required : true
+        type : String
     },
     statut : {
         type : String

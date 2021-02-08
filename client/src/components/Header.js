@@ -187,7 +187,7 @@ const Header = (props) => {
         >
           <MenuItem to="/">Home</MenuItem>
           <MenuItem to="/community">Community </MenuItem>
-          <MenuItem to="/messages">Messages </MenuItem>
+          <MenuItem to="/meetings">Meetings </MenuItem>
           <MenuItem to="/recommandations">Recommandations </MenuItem>
           <MenuItem to="/questions">Q&A </MenuItem>
           { isAuthenticated === "true" && profile !== null ? authLinks : guestLinks}

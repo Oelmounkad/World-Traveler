@@ -13,7 +13,8 @@ import {PERSIST_COMM_PROFILES,
         PERSIST_QUESTIONS,
         FILTER_QUE_LOC,
         FILTER_QUE_THEME,
-        CLEAR_FILTER_QUE
+        CLEAR_FILTER_QUE,
+        PERSIST_USER_MEETINGS
     
     
     } from '../types'
@@ -27,7 +28,8 @@ const AppState = props => {
         recommandations: [],
         filteredRecommandations:null,
         questions: [],
-        filteredQuestions: null
+        filteredQuestions: null,
+        userMeetings: []
     }
 
     
@@ -246,6 +248,63 @@ const clearFilterQue = () => {
 dispatch({type: CLEAR_FILTER_QUE })
 }
 
+
+
+// Get all user meetings
+
+const getUserMeetings = async () => {
+
+
+    try{
+     setAuthToken(localStorage.token)
+     const res = await generalApi.get('/api/meetings')
+
+     dispatch({
+         type: PERSIST_USER_MEETINGS,
+         payload: res.data
+     })
+
+    } catch(err){
+        console.log(err.message)
+    }
+}
+
+const requestMeeting = async(hosterId,data) => {
+
+    try{
+     setAuthToken(localStorage.token)
+     await generalApi.post(`/api/meetings/${hosterId}`,data)
+
+    } catch(err){
+        console.log(err.message)
+    }
+
+}
+
+const acceptMeeting = async meetingId => {
+    try{
+        setAuthToken(localStorage.token)
+        let data = {statut : "confirmed"}
+        await generalApi.patch(`/api/meetings/${meetingId}`,data)
+   
+       } catch(err){
+           console.log(err.message)
+       }
+
+}
+
+const finishMeeting = async meetingId => {
+    try{
+        setAuthToken(localStorage.token)
+        let data = {statut : "finished"}
+        await generalApi.patch(`/api/meetings/${meetingId}`,data)
+   
+       } catch(err){
+           console.log(err.message)
+       }
+
+}
+
    return (
        <AppContext.Provider 
        value={{
@@ -255,6 +314,7 @@ dispatch({type: CLEAR_FILTER_QUE })
         filteredRecommandations: state.filteredRecommandations,
         questions: state.questions,
         filteredQuestions: state.filteredQuestions,
+        userMeetings: state.userMeetings,
         getProfiles,
         getChosenProfile,
         updateProfile,
@@ -271,7 +331,11 @@ dispatch({type: CLEAR_FILTER_QUE })
         commentQuestion,
         filterQueByLocation,
         filterQueByTheme,
-        clearFilterQue
+        clearFilterQue,
+        getUserMeetings,
+        requestMeeting,
+        acceptMeeting,
+        finishMeeting
        }}>
 
            {props.children}

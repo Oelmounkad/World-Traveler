@@ -8,7 +8,8 @@ import { PERSIST_COMM_PROFILES,
         PERSIST_QUESTIONS,
         CLEAR_FILTER_QUE,
         FILTER_QUE_THEME,
-        FILTER_QUE_LOC} from "../types";
+        FILTER_QUE_LOC,
+        PERSIST_USER_MEETINGS} from "../types";
 
 export default (state,action) => {
     switch(action.type){
@@ -17,6 +18,11 @@ export default (state,action) => {
             return{
                 ...state,
                 communityProfiles: action.payload
+            }
+            case PERSIST_USER_MEETINGS:
+            return{
+                ...state,
+                userMeetings: action.payload
             }
             case PERSIST_CHOSEN_PROFILE:
                 return{
@@ -41,7 +47,12 @@ export default (state,action) => {
             case FILTER_REC_LOC:
                 return {
                     ...state,
-                    filteredRecommandations: state.recommandations.filter(rec => {
+                    filteredRecommandations: state.filteredRecommandations !== null ? state.filteredRecommandations.filter(rec => {
+                        const regex = new RegExp(`${action.payload}`, 'gi')
+                        return rec.city.match(regex) || rec.location.match(regex)
+                    }) :  
+                    
+                    state.recommandations.filter(rec => {
                         const regex = new RegExp(`${action.payload}`, 'gi')
                         return rec.city.match(regex) || rec.location.match(regex)
                     })
@@ -49,7 +60,10 @@ export default (state,action) => {
             case FILTER_REC_THEME:
                     return {
                         ...state,
-                        filteredRecommandations: state.recommandations.filter(rec => {
+                        filteredRecommandations: state.filteredRecommandations !== null ? state.filteredRecommandations.filter(rec => {
+                            const regex = new RegExp(`${action.payload}`, 'gi')
+                            return rec.theme.match(regex)
+                        }) : state.recommandations.filter(rec => {
                             const regex = new RegExp(`${action.payload}`, 'gi')
                             return rec.theme.match(regex)
                         })
@@ -63,7 +77,10 @@ export default (state,action) => {
                                         case FILTER_QUE_LOC:
                                     return {
                                         ...state,
-                                        filteredQuestions: state.questions.filter(rec => {
+                                        filteredQuestions: state.filteredQuestions !== null ? state.filteredQuestions.filter(rec => {
+                                            const regex = new RegExp(`${action.payload}`, 'gi')
+                                            return rec.city.match(regex) || rec.location.match(regex)
+                                        }) : state.questions.filter(rec => {
                                             const regex = new RegExp(`${action.payload}`, 'gi')
                                             return rec.city.match(regex) || rec.location.match(regex)
                                         })
@@ -71,7 +88,10 @@ export default (state,action) => {
                                 case FILTER_QUE_THEME:
                                         return {
                                             ...state,
-                                            filteredQuestions: state.questions.filter(rec => {
+                                            filteredQuestions:state.filteredQuestions !== null ? state.filteredQuestions.filter(rec => {
+                                                const regex = new RegExp(`${action.payload}`, 'gi')
+                                                return rec.city.match(regex) || rec.location.match(regex)
+                                            }) : state.questions.filter(rec => {
                                                 const regex = new RegExp(`${action.payload}`, 'gi')
                                                 return rec.theme.match(regex)
                                             })
