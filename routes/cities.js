@@ -45,4 +45,22 @@ router.post('/', auth, async (req, res) => {
     }
 })
 
+// // @route   GET api/cities/:id
+// // @desc    Gets a city by ID
+// // @access  Public
+
+router.get ('/:id', async (req, res) => {
+    const _id = req.params.id
+
+    try {
+       const city = await City.findById(_id)
+       if (!city) {
+        return  res.status(404).send('error : City not found')
+      }
+      res.send(city)
+    }catch(e) {
+        res.status(500).send()
+    }
+})
+
 module.exports = router
