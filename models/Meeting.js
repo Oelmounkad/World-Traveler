@@ -18,8 +18,7 @@ const Meeting = mongoose.model('Meeting',{
         required : true
     },
     statut : {
-        type : String,
-        default : 'To come'
+        type : String
     }
 })
 
