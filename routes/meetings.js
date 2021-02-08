@@ -56,16 +56,18 @@ router.get('/', auth, async (req, res) => {
 // @access Private
 
 router.patch('/:id', auth, async (req, res) => {
-
+    const _id = req.params.id
     try {
-        const meeting = await Meeting.findById(req.params.id)
+        let meeting = await Meeting.findById(_id)
         
         if (!meeting) {
             return res.status(404).send('error : No meeting found')
         }
-        if(meeting.requester.toString() !== req.sub ) {
-            return res.status(401).send('Not authorized to delete this recommandation !')
+        if(meeting.hoster.toString() !== req.sub || meeting.requester.toString() !== req.sub ) {
+            return res.status(401).send('Not authorized to update this meeting !')
         }
+
+        meeting = await Meeting.findByIdAndUpdate(_id, {statut : req.body.statut},{new: true})
         res.send(meeting)
      }catch(e) {
         res.status(500).send(e)
