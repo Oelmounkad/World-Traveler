@@ -63,9 +63,6 @@ router.patch('/:id', auth, async (req, res) => {
         if (!meeting) {
             return res.status(404).send('error : No meeting found')
         }
-        if(meeting.hoster.toString() !== req.sub || meeting.requester.toString() !== req.sub ) {
-            return res.status(401).send('Not authorized to update this meeting !')
-        }
 
         meeting = await Meeting.findByIdAndUpdate(_id, {statut : req.body.statut},{new: true})
         res.send(meeting)
