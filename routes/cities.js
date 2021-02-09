@@ -33,6 +33,7 @@ router.post('/', auth, async (req, res) => {
     //create the City 
      const city = new City({
          title: req.body.title,
+         country: req.body.country,
          description: req.body.description,
          picture: img_url,
      })
