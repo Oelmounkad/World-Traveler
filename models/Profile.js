@@ -12,7 +12,6 @@ const Profile = mongoose.model('Profile', {
     },
     sexe : {
         type : String,
-        enum: ["Male","Female","Other"],
         required: false
     },
     birthDate : {

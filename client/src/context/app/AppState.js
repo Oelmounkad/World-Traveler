@@ -14,7 +14,12 @@ import {PERSIST_COMM_PROFILES,
         FILTER_QUE_LOC,
         FILTER_QUE_THEME,
         CLEAR_FILTER_QUE,
-        PERSIST_USER_MEETINGS
+        PERSIST_USER_MEETINGS,
+        FILTER_PRO_LOC,
+        FILTER_PRO_GEN,
+        FILTER_PRO_LANG,
+        FILTER_PRO_AGE,
+        CLEAR_FILTER_PRO
     
     
     } from '../types'
@@ -24,6 +29,7 @@ const AppState = props => {
 
     const initialState = {
         communityProfiles: [],
+        filteredCommunityProfiles: null,
         chosenProfile: null,
         recommandations: [],
         filteredRecommandations:null,
@@ -305,10 +311,23 @@ const finishMeeting = async meetingId => {
 
 }
 
+
+// Filters for profiles:
+
+const filterProByLocation = text => {
+    dispatch({type: FILTER_PRO_LOC , payload: text })
+}
+
+const clearFilterPro = () => {
+    dispatch({type: CLEAR_FILTER_PRO })
+}
+
+
    return (
        <AppContext.Provider 
        value={{
         communityProfiles: state.communityProfiles,
+        filteredCommunityProfiles: state.filteredCommunityProfiles,
         chosenProfile: state.chosenProfile,
         recommandations: state.recommandations,
         filteredRecommandations: state.filteredRecommandations,
@@ -335,7 +354,9 @@ const finishMeeting = async meetingId => {
         getUserMeetings,
         requestMeeting,
         acceptMeeting,
-        finishMeeting
+        finishMeeting,
+        filterProByLocation,
+        clearFilterPro
        }}>
 
            {props.children}

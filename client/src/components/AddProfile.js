@@ -89,6 +89,15 @@ const AddProfile = props => {
                         </Flex>
                     
                     <Flex direction="row">
+
+                    <Box>
+                                <Heading>Gender</Heading>
+                                <Select name="sexe" placeholder="Select option" height='100px' width="300px" value={editedProfile.sexe} onChange={onChangeEdited}>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </Select>  
+                                </Box>
                                <Box>
                                 <Heading>Languages</Heading>
                                 <Select name="languages" placeholder="Select option" multiple height='100px' width="300px" value={editedProfile.languages} onChange={onChangeSelectLanguage}>

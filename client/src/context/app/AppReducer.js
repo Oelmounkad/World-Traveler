@@ -9,7 +9,10 @@ import { PERSIST_COMM_PROFILES,
         CLEAR_FILTER_QUE,
         FILTER_QUE_THEME,
         FILTER_QUE_LOC,
-        PERSIST_USER_MEETINGS} from "../types";
+        PERSIST_USER_MEETINGS,
+        FILTER_PRO_LOC,
+        CLEAR_FILTER_PRO,
+        FILTER_PRO_GEN} from "../types";
 
 export default (state,action) => {
     switch(action.type){
@@ -100,6 +103,27 @@ export default (state,action) => {
                                     return {
                                         ...state,
                                         filteredQuestions: null
+                                    } 
+
+
+
+
+                                    case FILTER_PRO_LOC:
+                                        return {
+                                            ...state,
+                                            filteredCommunityProfiles: state.filteredCommunityProfiles !== null ? state.filteredCommunityProfiles.filter(rec => {
+                                                const regex = new RegExp(`${action.payload}`, 'gi')
+                                                return rec.city.match(regex)
+                                            }) : state.communityProfiles.filter(rec => {
+                                                const regex = new RegExp(`${action.payload}`, 'gi')
+                                                return rec.city.match(regex)
+                                            })
+                                        }
+
+                                        case CLEAR_FILTER_PRO:
+                                    return {
+                                        ...state,
+                                        filteredCommunityProfiles: null
                                     } 
            
     }

@@ -410,6 +410,15 @@ const Profile = props => {
                              <Heading>Bio</Heading>
                              <Textarea type="text" name="description" placeholder="Bio" value={editedProfile.description} onChange={onChangeEdited} />
                         </Flex>
+
+                        <Box>
+                                <Heading>Gender</Heading>
+                                <Select name="sexe" placeholder="Select option" height='100px' width="300px" value={editedProfile.sexe} onChange={onChangeEdited}>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </Select>  
+                                </Box>
                     
                     <Flex direction="row">
                                <Box>
