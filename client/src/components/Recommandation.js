@@ -2,10 +2,11 @@ import { Avatar, Badge, Box, Button, Divider, Flex, Heading, Image, Input, Text 
 import React,{useState,useContext} from 'react'
 import moment from 'moment'
 import AppContext from '../context/app/AppContext'
-
+import {useHistory} from 'react-router-dom'
 
 const Recommandation = ({rec}) => {
 
+  const history = useHistory()
   const appContext = useContext(AppContext)
   const {commentRecommandation,getAllRecommandations} = appContext
 
@@ -48,7 +49,9 @@ const Recommandation = ({rec}) => {
           flexDir="column"
           justify="space-between"
         >
-        {rec.user.profile && <Flex cursor="pointer" marginRight='7px'>
+        {rec.user.profile && <Flex onClick={() => {
+          history.push(`/profile/${rec.user._id}`)
+        } } cursor="pointer" marginRight='7px'>
             <Avatar src={rec.user.profile.profilePicture} />
             <Box ml="3">
                 <Text color="white" fontWeight="bold">

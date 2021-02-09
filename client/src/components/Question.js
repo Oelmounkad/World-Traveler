@@ -2,8 +2,11 @@ import { Avatar, Badge, Box, Button, Divider, Flex, Heading, Image, Input, Text 
 import React,{useState,useContext} from 'react'
 import moment from 'moment'
 import AppContext from '../context/app/AppContext'
+import {useHistory} from 'react-router-dom'
 
 const Question = ({que}) => {
+
+    const history = useHistory()
 
     const appContext = useContext(AppContext)
     const {commentQuestion,getAllQuestions} = appContext
@@ -47,7 +50,9 @@ const Question = ({que}) => {
           flexDir="column"
           justify="space-between"
         >
-        {que.user.profile && <Flex cursor="pointer" marginRight='7px'>
+        {que.user.profile && <Flex onClick={() => {
+          history.push(`/profile/${que.user._id}`)
+        } } cursor="pointer" marginRight='7px'>
             <Avatar src={que.user.profile.profilePicture} />
             <Box ml="3">
                 <Text color="white" fontWeight="bold">
