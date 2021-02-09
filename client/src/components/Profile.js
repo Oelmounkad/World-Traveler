@@ -233,7 +233,7 @@ const Profile = props => {
 
                     <Box border="2px" borderColor="gray.500">
                     
-                        <Image border="2px" borderColor="black.100" m='1.5' marginBottom='2' boxSize="300px" src={chosenProfile.profilePicture} alt="naruto" objectFit="cover" />
+                        <Image border="2px" borderColor="black.100" m='1.5' marginBottom='2' boxSize="300px" src={chosenProfile.profilePicture}  objectFit="cover" />
                             
                            {/** Meetings */}
                        {/**
@@ -361,7 +361,7 @@ const Profile = props => {
                     {chosenProfile.portfolio.length !== 0 && 
                      chosenProfile.portfolio.slice(0).reverse().map(image => 
                      
-                        <Image cursor="pointer" onClick={() => handleOpen(image)}  m='1.5' marginBottom='2' boxSize="250px" src={image} alt="naruto" objectFit="cover" />
+                        <Image cursor="pointer" onClick={() => handleOpen(image)}  m='1.5' marginBottom='2' boxSize="250px" src={image} objectFit="cover" />
                     
                      )
                     }
@@ -373,7 +373,7 @@ const Profile = props => {
                            
                             <ModalCloseButton />
                             <ModalBody>
-                            <Image   boxSize="500px" src={modalImage} alt="naruto" objectFit="cover" />
+                            <Image   boxSize="500px" src={modalImage} objectFit="cover" />
                             </ModalBody>
                             </ModalContent>
                         </Modal>
