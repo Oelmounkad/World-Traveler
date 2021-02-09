@@ -107,10 +107,10 @@ const Recommandation = ({rec}) => {
             {rec.comments.length !== 0 && rec.comments.map(comment => 
               
               <Flex alignItems="center" mb='2'>
-                <Avatar src={comment.user.profile && comment.user.profile.profilePicture} />
+                <Avatar src={comment.user && comment.user.profile && comment.user.profile.profilePicture} />
                 <Box ml="3" mr='3'>
                     <Text color="white" fontWeight="bold">
-                    {comment.user.profile && comment.user.profile.fullName}
+                    {comment.user && comment.user.profile && comment.user.profile.fullName}
                     </Text>
                 </Box>
                 <Text>{comment.description}</Text>

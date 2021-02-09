@@ -83,10 +83,10 @@ export default (state,action) => {
                                         ...state,
                                         filteredQuestions: state.filteredQuestions !== null ? state.filteredQuestions.filter(rec => {
                                             const regex = new RegExp(`${action.payload}`, 'gi')
-                                            return rec.city.match(regex) || rec.location.match(regex)
+                                            return rec.city.match(regex)
                                         }) : state.questions.filter(rec => {
                                             const regex = new RegExp(`${action.payload}`, 'gi')
-                                            return rec.city.match(regex) || rec.location.match(regex)
+                                            return rec.city.match(regex)
                                         })
                                     }
                                 case FILTER_QUE_THEME:
@@ -94,7 +94,7 @@ export default (state,action) => {
                                             ...state,
                                             filteredQuestions:state.filteredQuestions !== null ? state.filteredQuestions.filter(rec => {
                                                 const regex = new RegExp(`${action.payload}`, 'gi')
-                                                return rec.city.match(regex) || rec.location.match(regex)
+                                                return rec.theme.match(regex)
                                             }) : state.questions.filter(rec => {
                                                 const regex = new RegExp(`${action.payload}`, 'gi')
                                                 return rec.theme.match(regex)
