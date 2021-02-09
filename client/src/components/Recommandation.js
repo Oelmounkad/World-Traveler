@@ -66,6 +66,7 @@ const Recommandation = ({rec}) => {
             <br />
 
           <Heading size={["md", null, "lg"]}>{rec.description}</Heading>
+          <Text as="i">{rec.location}</Text>
           <Flex flexDir="row" flexWrap="wrap" mt={2} maxW="100%">
                 <Badge
                   mr={1}
