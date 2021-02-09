@@ -11,6 +11,7 @@ import AddProfile from './components/AddProfile';
 import Recommandations from './components/Recommandations';
 import Questions from './components/Questions';
 import Meetings from './components/Meetings';
+import HomePage from './components/HomePage';
 
 const App = () => {
   return (
@@ -20,13 +21,16 @@ const App = () => {
         <Router>
           <Header />
               <Switch>
+
+                      <Route exact path="/" component={HomePage} />
                         {/* Auth */}
                       <Route exact path="/login" component={Login} />
                       <Route exact path="/signup" component={Signup} />
 
-
                       <Route exact path="/community" component={Community} />
+                      <Route exact path="/community/:chosenCity" component={Community} />
                       <Route exact path="/recommandations" component={Recommandations} />
+                      <Route exact path="/recommandations/:chosenCity" component={Recommandations} />
                       <Route exact path="/questions" component={Questions} />
                       <Route exact path="/profile/add" component={AddProfile} />
                       <Route exact path="/profile/:id" component={Profile} />

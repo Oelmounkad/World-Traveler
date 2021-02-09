@@ -4,8 +4,12 @@ import { useDisclosure,Box,Avatar,Spacer,Button,IconButton,Text,Badge,Icon,Radio
 import { MdMyLocation, MdPermContactCalendar,MdSearch} from 'react-icons/md'
 import moment from 'moment'
 import AppContext from '../context/app/AppContext'
+import AuthContext from '../context/auth/AuthContext'
 
-const Community = () => {
+const Community = props => {
+
+
+  const { match: { params } } = props 
 
   const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -16,6 +20,9 @@ const Community = () => {
       filterProByLocation,clearFilterPro
     } = appContext
 
+    const authContext = useContext(AuthContext)
+    const {user} = authContext
+
     const [modalSubject, setModalSubject] = useState({})
     const [message, setMessage] = useState('')
     const [time, setTime] = useState('')
@@ -23,9 +30,6 @@ const Community = () => {
     //Filters :
 
     const textLoc = useRef('')
-    const textGender = useRef('Male')
-    const textLang = useRef('')
-    const textAge = useRef('')
 
     const onChangeLoc = e => {
       if(textLoc.current.value !== ''){
@@ -42,12 +46,25 @@ const Community = () => {
     }
 
     useEffect(() => {
-        getProfiles()
+        getProfiles().then(_ => {
+          console.log('here: ',params.chosenCity)
+          if(params.chosenCity){
+            console.log('#####here undef')
+            textLoc.current = params.chosenCity
+            filterProByLocation(params.chosenCity)
+          }
+        })
     }, [])
 
     const handleRequestMeeting = e => {
         e.preventDefault()
         if(message !== ''){
+          const reg = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+
+          if(!time.match(reg)){
+            alert('wrong date format !')
+            return;
+          }
             let data = {
                 location: modalSubject.city,
                 message: message,
@@ -119,7 +136,7 @@ const Community = () => {
           {filteredCommunityProfiles !== null
             ? filteredCommunityProfiles.map(profile => (
 
-              <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
+              profile.user !== user.id &&  <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
               <Box p="4">
               <Avatar
@@ -138,6 +155,11 @@ const Community = () => {
            
           >
             Fullname : {profile.fullName}
+          </Box>
+          <Box
+           
+          >
+            City : {profile.city}
           </Box>
   
           <Box
@@ -184,7 +206,7 @@ const Community = () => {
               ))
             : communityProfiles.map(profile => (
                 
-              <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
+          profile.user !== user.id &&    <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
               <Box p="4">
               <Avatar
@@ -203,6 +225,11 @@ const Community = () => {
            
           >
             Fullname : {profile.fullName}
+          </Box>
+          <Box
+           
+          >
+            City : {profile.city}
           </Box>
   
           <Box

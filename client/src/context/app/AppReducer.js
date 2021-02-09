@@ -12,7 +12,8 @@ import { PERSIST_COMM_PROFILES,
         PERSIST_USER_MEETINGS,
         FILTER_PRO_LOC,
         CLEAR_FILTER_PRO,
-        FILTER_PRO_GEN} from "../types";
+        FILTER_PRO_GEN,
+        PERSIST_CITIES} from "../types";
 
 export default (state,action) => {
     switch(action.type){
@@ -125,6 +126,12 @@ export default (state,action) => {
                                         ...state,
                                         filteredCommunityProfiles: null
                                     } 
+
+                                    case PERSIST_CITIES:
+                                        return {
+                                            ...state,
+                                            cities: action.payload
+                                        } 
            
     }
 

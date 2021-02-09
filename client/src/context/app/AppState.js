@@ -19,7 +19,8 @@ import {PERSIST_COMM_PROFILES,
         FILTER_PRO_GEN,
         FILTER_PRO_LANG,
         FILTER_PRO_AGE,
-        CLEAR_FILTER_PRO
+        CLEAR_FILTER_PRO,
+        PERSIST_CITIES
     
     
     } from '../types'
@@ -35,7 +36,8 @@ const AppState = props => {
         filteredRecommandations:null,
         questions: [],
         filteredQuestions: null,
-        userMeetings: []
+        userMeetings: [],
+        cities: []
     }
 
     
@@ -323,6 +325,20 @@ const clearFilterPro = () => {
 }
 
 
+const getAllCities = async () => {
+    try{
+
+       const res = await generalApi.get(`/api/cities`)
+       dispatch({
+           type: PERSIST_CITIES,
+           payload: res.data
+       })
+   
+       } catch(err){
+           console.log(err.message)
+       }
+}
+
    return (
        <AppContext.Provider 
        value={{
@@ -334,6 +350,7 @@ const clearFilterPro = () => {
         questions: state.questions,
         filteredQuestions: state.filteredQuestions,
         userMeetings: state.userMeetings,
+        cities: state.cities,
         getProfiles,
         getChosenProfile,
         updateProfile,
@@ -356,7 +373,8 @@ const clearFilterPro = () => {
         acceptMeeting,
         finishMeeting,
         filterProByLocation,
-        clearFilterPro
+        clearFilterPro,
+        getAllCities
        }}>
 
            {props.children}

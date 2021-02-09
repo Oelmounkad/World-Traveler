@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Box, Flex, Text, Button, Avatar, AvatarBadge, IconButton, Icon,Image } from "@chakra-ui/react";
 import ColorModeSwitch from './ColorModeSwitch'
 import AuthContext from '../context/auth/AuthContext'
-import { MdPowerSettingsNew } from "react-icons/md";
+import { MdFlightLand, MdFlightTakeoff, MdPowerSettingsNew } from "react-icons/md";
 import {useHistory} from 'react-router-dom'
 
 
@@ -156,14 +156,16 @@ const Header = (props) => {
     >
 
     <Flex align="center">
-    <Box w="200px"
+    <MdFlightTakeoff />
+    
+    <Box w="130px" ml='1' cursor='pointer' onClick={() => history.push('/') }
           color={["white", "white", "primary.500", "primary.500"]}>
       <Text fontSize="lg" fontWeight="bold">
         World Traveler
       </Text>
      
 
-    </Box>
+    </Box><MdFlightLand />
    {/* <Image boxSize="50px" src="https://res.cloudinary.com/oelmounkad/image/upload/v1612190965/headerpic_tmzbtw.png" alt="naruto" objectFit="cover" />*/}
       </Flex>
 

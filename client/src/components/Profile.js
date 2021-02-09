@@ -234,19 +234,11 @@ const Profile = props => {
                     <Box border="2px" borderColor="gray.500">
                     
                         <Image border="2px" borderColor="black.100" m='1.5' marginBottom='2' boxSize="300px" src={chosenProfile.profilePicture} alt="naruto" objectFit="cover" />
-                   
-                            {/** Followers */}
-                        <Flex my='2' alignItems="center" direction="row" bg="#EEEEEE" px="1" mx="1" borderRadius="3px" boxShadow="base" >
-                                <Icon color="#BDBDBD" w={8} h={8} as={MdFavorite} />
-                                &nbsp;  <Text color="#9E9E9E" fontSize="md" fontWeight="bold" fontFamily="sans-serif">Friends</Text> 
-                                <Spacer />
-                                <Box bg="#1976D2" borderColor="blue.500" borderRadius="full" > 
-                                    <Text px='1' color="white" fontFamily="sans-serif" fontSize="sm" >70</Text>
-                                </Box>
-                           </Flex>
                             
                            {/** Meetings */}
-                           <Flex my='2' alignItems="center" direction="row" bg="#EEEEEE" px="1" mx="1" borderRadius="3px" boxShadow="base">
+                       {/**
+                        
+                        <Flex my='2' alignItems="center" direction="row" bg="#EEEEEE" px="1" mx="1" borderRadius="3px" boxShadow="base">
                                     <Icon color="#BDBDBD" w={8} h={8} as={MdGroupWork} />
                                 &nbsp;  <Text color="#9E9E9E" fontSize="md" fontWeight="bold" fontFamily="sans-serif">Meetings</Text> 
                                 <Spacer />
@@ -254,6 +246,7 @@ const Profile = props => {
                                     <Text px='1' color="white" fontFamily="sans-serif" fontSize="sm" >120</Text>
                                 </Box>
                            </Flex>
+                        */}    
 
                            {/** Languages */}
                            <Flex my='2' alignItems="center" direction="row" bg="#EEEEEE" px="1" mx="1" borderRadius="3px" boxShadow="base">
@@ -296,19 +289,7 @@ const Profile = props => {
                                
                            </Flex>
                                 {/** Buttons */}
-                        { chosenProfile.user !== user.id ?  
-                        
-                        <Flex direction="row">
-                           <Button marginRight='6px'>
-                                <Icon color="#C62828" w={8} h={8} as={MdPersonAdd} />
-                                <Text>Add Friend</Text>
-                            </Button>
-                            <Button marginRight='6px'>
-                                <Icon color="#C62828" w={8} h={8} as={MdChat} />
-                                <Text>Contact</Text>
-                            </Button>
-                           </Flex> 
-                           :
+                        { chosenProfile.user == user.id &&  
                            
                            <Flex direction="row">
                            <Button onClick={() => setEditMode(true)} marginRight='6px'>

@@ -46,6 +46,25 @@ router.post('/', auth, async (req, res) => {
     }
 })
 
+
+// // @route   GET api/cities
+// // @desc    Gets all cities
+// // @access  Public
+
+router.get ('/', async (req, res) => {
+
+    try {
+       const cities = await City.find()
+       if (!cities) {
+        return  res.status(404).send('error : No cities')
+      }
+      res.send(cities)
+    }catch(e) {
+        res.status(500).send()
+    }
+})
+
+
 // // @route   GET api/cities/:id
 // // @desc    Gets a city by ID
 // // @access  Public

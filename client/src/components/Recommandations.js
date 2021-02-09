@@ -5,7 +5,9 @@ import {AddIcon} from '@chakra-ui/icons'
 import { MdMyLocation } from 'react-icons/md'
 import Recommandation from './Recommandation'
 
-const Recommandations = () => {
+const Recommandations = props => {
+
+    const { match: { params } } = props 
 
     let hiddenInput = null
     const [fileInputState, setFileInputState] = useState('')
@@ -73,7 +75,14 @@ const Recommandations = () => {
     const { isOpen, onToggle } = useDisclosure()
 
     useEffect(() => {
-        getAllRecommandations()
+        getAllRecommandations().then(_ => {
+            console.log('here: ',params.chosenCity)
+            if(params.chosenCity){
+              console.log('#####here undef')
+              textLoc.current = params.chosenCity
+              filterRecByLocation(params.chosenCity)
+            }
+          })
     }, [])
 
 

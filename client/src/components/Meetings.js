@@ -23,13 +23,14 @@ const Meetings = () => {
             {/** Pending Meetings */}
 
 
-            {userMeetings.length !== 0 && 
+            {userMeetings.length !== 0 &&
             <>
             <Box mb='4' textAlign="center">
-            <Heading>Pending Meetings</Heading>
-          </Box>
+               <Heading>Pending Meetings</Heading>
+            </Box>
+            
             {userMeetings.map(meeting => 
-                meeting.statut == "pending" ?
+                meeting.statut == "pending" &&
                 <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
             <Box p="4">
@@ -96,6 +97,12 @@ const Meetings = () => {
          
         </Box>
         </Box>
+
+        <Box>
+              Message :  {meeting.message}
+          </Box>
+
+
       <Spacer />
       {user.id == meeting.hoster._id ? 
       <Flex direction="column" alignItems="center" paddingRight="2">
@@ -104,11 +111,15 @@ const Meetings = () => {
       <Text pr='4'>Pending...</Text>
     }
       
-    </Flex> : <Center> <Text>No Pending Meetings...</Text>  </Center>
+    </Flex>
 
             )} 
             </>
             }
+
+                  {userMeetings.filter(el => el.statut == "pending").length == 0 &&
+                    <Center><Text>No Pending meetings...</Text></Center>
+                  }
 
 
             {/** Confirmed Meetings */}
@@ -119,7 +130,7 @@ const Meetings = () => {
             <Heading>Confirmed Meetings</Heading>
           </Box>
             {userMeetings.map(meeting => 
-                meeting.statut == "confirmed" ?
+                meeting.statut == "confirmed" &&
                 <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
             <Box p="4">
@@ -196,11 +207,15 @@ const Meetings = () => {
       </Flex>
     
       
-    </Flex> : <Center><Text>No Confirmed meetings...</Text></Center> 
+    </Flex>
 
             )} 
             </>
             } 
+
+          {userMeetings.filter(el => el.statut == "confirmed").length == 0 &&
+                              <Center><Text>No Confirmed meetings...</Text></Center>
+                            }
 
 
             {/** Finished Meetings */}
@@ -211,7 +226,7 @@ const Meetings = () => {
             <Heading>Finished Meetings</Heading>
           </Box>
             {userMeetings.map(meeting => 
-                meeting.statut == "finished" ?
+                meeting.statut == "finished" &&
                 <Flex marginLeft="80" marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
 
             <Box p="4">
@@ -283,11 +298,15 @@ const Meetings = () => {
       </Flex>
     
       
-    </Flex> : <Center> <Text>No finished Meetings...</Text></Center>
+    </Flex>
 
             )} 
             </>
-            }      
+            } 
+
+             {userMeetings.filter(el => el.statut == "finished").length == 0 &&
+                    <Center><Text>No Finished meetings...</Text></Center>
+                  }     
         </>
     )
 }
