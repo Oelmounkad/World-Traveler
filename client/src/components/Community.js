@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useContext,useRef} from 'react'
 import {useHistory} from 'react-router-dom'
-import { useDisclosure,Box,Avatar,Spacer,Button,IconButton,Text,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Modal } from "@chakra-ui/react"
+import { useDisclosure,Box,Avatar,Spacer,Button,IconButton,Text,Badge,Icon,RadioGroup,Stack,Radio,Select,Input,Heading,InputLeftElement,InputGroup, Flex, Center, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, FormControl, FormLabel, ModalFooter, Modal, Textarea } from "@chakra-ui/react"
 import { MdMyLocation, MdPermContactCalendar,MdSearch} from 'react-icons/md'
 import moment from 'moment'
 import AppContext from '../context/app/AppContext'
@@ -45,6 +45,8 @@ const Community = props => {
       history.push(`/profile/${id}`)
     }
 
+  
+
     useEffect(() => {
         getProfiles().then(_ => {
           console.log('here: ',params.chosenCity)
@@ -53,6 +55,7 @@ const Community = props => {
             textLoc.current = params.chosenCity
             filterProByLocation(params.chosenCity)
           }
+          
         })
     }, [])
 
@@ -112,7 +115,7 @@ const Community = props => {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Message</FormLabel>
-              <Input value={message}  placeholder="Send a message!" onChange={e => setMessage(e.target.value)} />
+              <Textarea value={message}  placeholder="Send a message!" onChange={e => setMessage(e.target.value)} />
               <FormLabel>Time</FormLabel>
               <Input value={time}  placeholder="Time of your meeting ! format : (DD-MM-YYY)" onChange={e => setTime(e.target.value)} />
             </FormControl>
