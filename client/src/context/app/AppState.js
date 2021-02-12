@@ -16,13 +16,10 @@ import {PERSIST_COMM_PROFILES,
         CLEAR_FILTER_QUE,
         PERSIST_USER_MEETINGS,
         FILTER_PRO_LOC,
-        FILTER_PRO_GEN,
-        FILTER_PRO_LANG,
-        FILTER_PRO_AGE,
+        FILTER_QUE_ALL,
+        FILTER_REC_ALL,
         CLEAR_FILTER_PRO,
         PERSIST_CITIES
-    
-    
     } from '../types'
 import setAuthToken from '../../utils/setAuthToken'
 
@@ -187,6 +184,12 @@ const filterRecByTheme = text => {
     dispatch({type: FILTER_REC_THEME , payload: text })
 }
 
+
+  // Filter recommandation by all
+
+  const filterRecByAll = text => {
+    dispatch({type: FILTER_REC_ALL , payload: text })
+}
    // Clear Filter Recommandation
    const clearFilterRec = () => {
     dispatch({type: CLEAR_FILTER_REC })
@@ -249,6 +252,12 @@ dispatch({type: FILTER_QUE_LOC , payload: text })
 
 const filterQueByTheme = text => {
 dispatch({type: FILTER_QUE_THEME , payload: text })
+}
+
+  // Filter question by all
+
+  const filterQueByAll = text => {
+    dispatch({type: FILTER_QUE_ALL , payload: text })
 }
 
 // Clear Filter Question
@@ -361,12 +370,14 @@ const getAllCities = async () => {
         commentRecommandation,
         filterRecByTheme,
         filterRecByLocation,
+        filterRecByAll,
         clearFilterRec,
         getAllQuestions,
         addQuestion,
         commentQuestion,
         filterQueByLocation,
         filterQueByTheme,
+        filterQueByAll,
         clearFilterQue,
         getUserMeetings,
         requestMeeting,
