@@ -1,6 +1,6 @@
 import React,{useContext,useRef,useEffect,useState} from 'react'
 import AppContext from '../context/app/AppContext'
-import {useDisclosure,Image,Select,Center,Box,Flex,Heading,Input,InputGroup,InputLeftElement,Icon, Button, Collapse, Text} from '@chakra-ui/react'
+import {useDisclosure,Image,Select,Center,Box,Flex,Heading,Input,InputGroup,InputLeftElement,Icon, Button, Collapse, Text, Textarea} from '@chakra-ui/react'
 import {AddIcon} from '@chakra-ui/icons'
 import { MdMyLocation } from 'react-icons/md'
 import Question from './Question'
@@ -10,7 +10,7 @@ const Questions = () => {
     const appContext = useContext(AppContext)
     const {getAllQuestions,addQuestion,
         questions,filteredQuestions,clearFilterQue,
-            filterQueByTheme,
+            filterQueByTheme,filterQueByAll,
             filterQueByLocation} = appContext
             useEffect(() => {
                getAllQuestions()
@@ -74,6 +74,7 @@ const Questions = () => {
 
     const textLoc = useRef('')
     const textTheme = useRef('')
+    const textAll = useRef('')
 
     const { isOpen, onToggle } = useDisclosure()
 
@@ -96,6 +97,15 @@ const Questions = () => {
         }
     }
 
+    const onChangeAll = e => {
+        if(textAll.current.value !== ''){
+            filterQueByAll(e.target.value)
+        }
+        else{
+            clearFilterQue()
+        }
+    }
+
     return (
         <>
         {/*/Filters */}
@@ -109,6 +119,13 @@ const Questions = () => {
           justify={["center", "space-between", "flex-end", "flex-end"]}
           direction={["column", "row", "row", "row"]}
           pt={[4, 4, 0, 0]} spacing={3}>
+              <InputGroup>
+                    <InputLeftElement
+                    pointerEvents="none"
+                    children={<Icon color="gray.300" />}
+                    />
+                    <Input type="text" placeholder="Search" ref={textAll} onChange={onChangeAll} />
+                </InputGroup>
                 <InputGroup>
                     <InputLeftElement
                     pointerEvents="none"
@@ -143,23 +160,23 @@ const Questions = () => {
                     rounded="md"
                     shadow="md"
                     >
-                         <Input type="text" placeholder="Description" name="description" value={rec.description} onChange={onChangeRec} />
+                         <Textarea type="text" placeholder="Description" name="description" value={rec.description} onChange={onChangeRec} />
                  <br />  <Input type="text" placeholder="City" name="city" value={rec.city} onChange={onChangeRec} />
-                 <br />  <Input type="text" placeholder="Address" name="location" value={rec.location} onChange={onChangeRec} />
+                 <br />  <Textarea type="text" placeholder="Address" name="location" value={rec.location} onChange={onChangeRec} />
                  <br />  <Select placeholder="Select a theme" name="theme" value={rec.theme} onChange={onChangeRec}>
+                            <option value="Amusement Parks">Amusement Parks</option>
+                            <option value="Beaches">Beaches</option> 
+                            <option value="Casino">Casino</option>
                             <option value="Food">Food</option>
                             <option value="Hotel">Hotel</option>
-                            <option value="Monuments">Monuments</option>
-                            <option value="Restaurants">Restaurants</option>
-                            <option value="Museums">Museums</option>
-                            <option value="Parks">Parks</option>
-                            <option value="Beaches">Beaches</option>
-                            <option value="Nature">Nature</option>
-                            <option value="Amusement Parks">Amusement Parks</option>
-                            <option value="Zoo">Zoo</option>
                             <option value="Lake">Lake</option>
-                            <option value="Casino">Casino</option>
+                            <option value="Monuments">Monuments</option>
                             <option value="Mountain">Mountain</option>
+                            <option value="Museums">Museums</option>
+                            <option value="Nature">Nature</option>
+                            <option value="Parks">Parks</option>
+                            <option value="Restaurants">Restaurants</option>
+                            <option value="Zoo">Zoo</option>
                          </Select>
 
                            {/** Recommandation image add button */}
