@@ -13,7 +13,9 @@ import { PERSIST_COMM_PROFILES,
         FILTER_PRO_LOC,
         CLEAR_FILTER_PRO,
         FILTER_PRO_GEN,
-        PERSIST_CITIES} from "../types";
+        PERSIST_CITIES,
+        FILTER_REC_ALL,
+        FILTER_QUE_ALL} from "../types";
 
 export default (state,action) => {
     switch(action.type){
@@ -72,6 +74,17 @@ export default (state,action) => {
                             return rec.theme.match(regex)
                         })
                     }
+                    case FILTER_REC_ALL:
+                        return {
+                            ...state,
+                            filteredRecommandations: state.filteredRecommandations !== null ? state.filteredRecommandations.filter(rec => {
+                                const regex = new RegExp(`${action.payload}`, 'gi')
+                                return rec.description.match(regex) || rec.city.match(regex) || rec.location.match(regex) || rec.theme.match(regex)
+                            }) : state.recommandations.filter(rec => {
+                                const regex = new RegExp(`${action.payload}`, 'gi')
+                                return rec.description.match(regex) || rec.city.match(regex) || rec.location.match(regex) || rec.theme.match(regex)
+                            })
+                        }
             case CLEAR_FILTER_REC:
                      return {
                          ...state,
@@ -100,6 +113,17 @@ export default (state,action) => {
                                                 return rec.theme.match(regex)
                                             })
                                         }
+                                        case FILTER_QUE_ALL:
+                                            return {
+                                                ...state,
+                                                filteredQuestions:state.filteredQuestions !== null ? state.filteredQuestions.filter(rec => {
+                                                    const regex = new RegExp(`${action.payload}`, 'gi')
+                                                    return rec.description.match(regex) || rec.city.match(regex) || rec.theme.match(regex)
+                                                }) : state.questions.filter(rec => {
+                                                    const regex = new RegExp(`${action.payload}`, 'gi')
+                                                    return rec.description.match(regex) || rec.city.match(regex) || rec.theme.match(regex)
+                                                })
+                                            }
                                 case CLEAR_FILTER_QUE:
                                     return {
                                         ...state,
