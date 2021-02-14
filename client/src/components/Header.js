@@ -156,16 +156,16 @@ const Header = (props) => {
     >
 
     <Flex align="center">
-    <MdFlightTakeoff />
+    <Image boxSize='60px' src="https://res.cloudinary.com/oelmounkad/image/upload/v1613322388/World_Traveler__5_-removebg-preview_ewy7aq.png" />
     
-    <Box w="130px" ml='1' cursor='pointer' onClick={() => history.push('/') }
+    <Box w="130px" cursor='pointer' onClick={() => history.push('/') }
           color={["white", "white", "primary.500", "primary.500"]}>
       <Text fontSize="lg" fontWeight="bold">
         World Traveler
       </Text>
      
 
-    </Box><MdFlightLand />
+    </Box>
    {/* <Image boxSize="50px" src="https://res.cloudinary.com/oelmounkad/image/upload/v1612190965/headerpic_tmzbtw.png" alt="naruto" objectFit="cover" />*/}
       </Flex>
 
