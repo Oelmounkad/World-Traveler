@@ -26,6 +26,8 @@ app.use('/api/comments',require('./routes/comments'))
 app.use('/api/meetings',require('./routes/meetings'))
 // Cities routes
 app.use('/api/cities',require('./routes/cities'))
+// Ratings routes
+app.use('/api/ratings',require('./routes/ratings'))
 
 //Serve static assets in production (to uncomment in Production)
 
