@@ -36,7 +36,7 @@ router.post('/', auth, async (req, res) => {
 // // @desc    Gets all rating for a user
 // // @access  Public
 
-router.get ('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
 
     try {
        const ratings = await Rating.find({rated: req.params.id})
