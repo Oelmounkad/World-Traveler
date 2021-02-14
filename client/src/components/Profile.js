@@ -1,11 +1,12 @@
 import React,{useEffect,useContext,useState} from 'react'
 import {AddIcon, EditIcon} from "@chakra-ui/icons"
-import {Box,Input,Flex,Modal,ModalOverlay,ModalContent,Spinner,ModalCloseButton,ModalBody,ModalFooter, useDisclosure ,Text,Image, Icon, Spacer, Button, Heading, Textarea, Select, IconButton, Center, FormLabel, FormControl, ModalHeader} from "@chakra-ui/react"
+import {Box,Input,Flex,Modal,ModalOverlay,ModalContent,Spinner,ModalCloseButton,ModalBody,ModalFooter, useDisclosure ,Text,Image, Icon, Spacer, Button, Heading, Textarea, Select, IconButton, Center, FormLabel, FormControl, ModalHeader, Badge, Avatar} from "@chakra-ui/react"
 import {MdEdit,MdPermContactCalendar,MdPersonAdd,MdChat, MdFavorite, MdGroupWork, MdLanguage, MdFitnessCenter, MdSave, MdKeyboardReturn} from 'react-icons/md'
 import AppContext from '../context/app/AppContext'
 import AuthContext from '../context/auth/AuthContext'
 import moment from 'moment'
 import {useHistory} from 'react-router-dom'
+import StaticRating from './StaticRating'
 
 const Profile = props => {
 
@@ -20,7 +21,7 @@ const Profile = props => {
     const { match: { params } } = props 
 
     const appContext = useContext(AppContext)
-    const {getChosenProfile,chosenProfile,updateProfile,addPhotoToPortfolio,editProfilePhoto,requestMeeting} = appContext
+    const {getChosenProfile,getChosenProfileRatings,chosenProfile,chosenProfileRatings,updateProfile,addPhotoToPortfolio,editProfilePhoto,requestMeeting} = appContext
 
     const authContext = useContext(AuthContext)
     const {user} = authContext
@@ -33,6 +34,7 @@ const Profile = props => {
 
     useEffect(() => {
         getChosenProfile(params.id)
+        getChosenProfileRatings(params.id)
     }, [])
 
     
@@ -511,10 +513,59 @@ const Profile = props => {
                     :   
                 
                             <Box marginLeft="200">
-                                <Heading>{chosenProfile.fullName}</Heading>
+                                <Text fontSize="4xl" >{chosenProfile.fullName}</Text>
                                 <Text  fontSize="xl">
                                 {chosenProfile.description}
                                 </Text>
+                                {chosenProfileRatings.length !== 0 && <Heading mb='2'>Ratings:</Heading>  }
+                                {chosenProfileRatings.length !== 0 ? 
+                                
+                                chosenProfileRatings.map(rating =>
+
+                                    <Flex marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
+
+                                    <Box p="4">
+                                    <Avatar
+                              size="xl"
+                              name="Kola Tioluwani"
+                              src={rating.rater.profile.profilePicture}
+                            />  
+                                    </Box>
+                              <Box p="6">
+                                <Box
+                                 
+                                >
+                                  Fullname : {rating.rater.profile.fullName}
+                                </Box>
+                              </Box>
+
+                              <Flex direction="column"
+                              >
+                                  
+                                  <Box overflow="hidden">
+                                      {rating.opinion}
+                                  </Box>
+                              </Flex>
+
+                             <StaticRating 
+                             size={30}
+                             scale={5}
+                             fillColor="gold"
+                             strokeColor="grey"
+                             initialRating={rating.rating}
+                             
+                             />
+
+
+                            </Flex> 
+                                )
+                                
+                                
+                                
+                                : 
+                                <div>No ratings!</div>
+                                }
+
                             </Box> 
                      }
                      
