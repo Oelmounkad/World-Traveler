@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Box, Icon , Stack, Text } from "@chakra-ui/react";
+import { Box , Stack, Text } from "@chakra-ui/react";
 import {StarIcon} from "@chakra-ui/icons";
 const Rating = React.forwardRef(
-  ({ size, scale, fillColor, strokeColor }, ref) => {
+  ({ size, scale, fillColor, strokeColor, parentCallback }, ref) => {
     const [rating, setRating] = useState(0);
     const buttons = [];
 
@@ -10,9 +10,11 @@ const Rating = React.forwardRef(
       if (!isNaN(idx)) {
         // allow user to click first icon and set rating to zero if rating is already 1
         if (rating === 1 && idx === 1) {
-          setRating(0);
+          setRating(0)
+          parentCallback(0)
         } else {
           setRating(idx);
+          parentCallback(idx)
         }
       }
     };
