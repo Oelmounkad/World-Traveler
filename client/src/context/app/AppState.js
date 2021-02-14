@@ -19,7 +19,8 @@ import {PERSIST_COMM_PROFILES,
         FILTER_QUE_ALL,
         FILTER_REC_ALL,
         CLEAR_FILTER_PRO,
-        PERSIST_CITIES
+        PERSIST_CITIES,
+        PERSIST_CHOSEN_PROFILE_RATINGS
     } from '../types'
 import setAuthToken from '../../utils/setAuthToken'
 
@@ -29,6 +30,7 @@ const AppState = props => {
         communityProfiles: [],
         filteredCommunityProfiles: null,
         chosenProfile: null,
+        chosenProfileRatings: [],
         recommandations: [],
         filteredRecommandations:null,
         questions: [],
@@ -68,6 +70,24 @@ const AppState = props => {
 
      dispatch({
          type: PERSIST_CHOSEN_PROFILE,
+         payload: res.data
+     })
+
+    } catch(err){
+        console.log(err.message)
+    }
+
+}
+
+  // get Chosen Profile Ratings
+
+  const getChosenProfileRatings = async id => {
+
+    try{
+     const res = await generalApi.get(`/api/ratings/${id}`)
+
+     dispatch({
+         type: PERSIST_CHOSEN_PROFILE_RATINGS,
          payload: res.data
      })
 
@@ -348,12 +368,25 @@ const getAllCities = async () => {
        }
 }
 
+// Rate somebody on meeting
+
+    const postRating = async data => {
+        try{
+            setAuthToken(localStorage.token)
+            await generalApi.post(`/api/ratings`,data)
+        
+            } catch(err){
+                console.log(err.message)
+            }   
+    }
+
    return (
        <AppContext.Provider 
        value={{
         communityProfiles: state.communityProfiles,
         filteredCommunityProfiles: state.filteredCommunityProfiles,
         chosenProfile: state.chosenProfile,
+        chosenProfileRatings: state.chosenProfileRatings,
         recommandations: state.recommandations,
         filteredRecommandations: state.filteredRecommandations,
         questions: state.questions,
@@ -385,7 +418,9 @@ const getAllCities = async () => {
         finishMeeting,
         filterProByLocation,
         clearFilterPro,
-        getAllCities
+        getAllCities,
+        postRating,
+        getChosenProfileRatings
        }}>
 
            {props.children}
