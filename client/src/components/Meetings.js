@@ -1,24 +1,87 @@
-import { Avatar, Badge, Box, Button, Center, Flex, Heading, Spacer, Text } from '@chakra-ui/react'
-import React,{useContext,useEffect} from 'react'
-import { MdClose, MdDone } from 'react-icons/md'
+import { Avatar, Badge, Box, Button, Center, Flex, FormControl, FormLabel, Heading, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Text,Textarea,useDisclosure } from '@chakra-ui/react'
+import React,{useContext,useEffect,useState} from 'react'
+import { MdDone } from 'react-icons/md'
 import AppContext from '../context/app/AppContext'
 import AuthContext from '../context/auth/AuthContext'
+import Rating from './Rating'
 const Meetings = () => {
 
     const appContext = useContext(AppContext)
-    const {getUserMeetings,userMeetings,acceptMeeting,finishMeeting} = appContext
+    const {getUserMeetings,userMeetings,acceptMeeting,finishMeeting,postRating} = appContext
 
     const authContext = useContext(AuthContext)
     const {user} = authContext
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const [rat, setRat] = useState(0)
+    const [opinion, setOpinion] = useState('')
+    const [chosen, setChosen] = useState('')
+    const [chosenMeeting, setChosenMeeting] = useState('')
 
     useEffect(() => {
         getUserMeetings()
     }, [])
 
+    const ratCallback = (rating) => {
+      setRat(rating)
+    }
+
+    const onSubmitRating = e => {
+      e.preventDefault()
+      let data = {
+        rated:chosen,
+        rating:rat,
+        opinion
+      }
+      postRating(data).then(_ => {
+        finishMeeting(chosenMeeting)
+          .then(_ => getUserMeetings())
+      })
+    }
+
     
 
     return (
         <>
+        {/* Modal for ratings */}
+        <form >
+        <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>How did you like the meeting ?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Rating</FormLabel>
+              <Rating
+                    size={48}
+                    scale={5}
+                    fillColor="gold"
+                    strokeColor="grey"
+                    parentCallback={ratCallback}
+                  />  
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Opinion</FormLabel>
+              <Textarea placeholder="Express your opinion about the meeting!" value={opinion} onChange={e => setOpinion(e.target.value)} />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button type="submit" onClick={onSubmitRating} colorScheme="blue" mr={3}>
+              Finish
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+      </form>
+
 
             {/** Pending Meetings */}
 
@@ -203,7 +266,11 @@ const Meetings = () => {
       
       <Flex direction="row" alignItems="center" paddingRight="2">
       <Badge mr='2'>Meeting accepted</Badge>
-      <Button onClick={() => finishMeeting(meeting._id).then(_ => getUserMeetings()) } colorScheme="green">Finish Meeting!</Button>
+      <Button onClick={ () => {
+        onOpen()
+        meeting.requester._id === user.id ? setChosen(meeting.hoster._id) : setChosen(meeting.requester._id)
+        setChosenMeeting(meeting._id)
+      } } colorScheme="green">Finish Meeting!</Button>
       </Flex>
     
       
