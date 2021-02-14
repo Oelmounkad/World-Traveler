@@ -319,7 +319,7 @@ const Profile = props => {
                                 <Icon color="#C62828" w={8} h={8} as={MdEdit} />
                                 <Text>Edit Profile</Text>
                             </Button>
-                            <Button marginRight='6px'>
+                            <Button onClick={() => history.push('/meetings') } marginRight='6px'>
                                 <Icon color="#C62828" w={8} h={8} as={MdPermContactCalendar} />
                                 <Text>Meetings</Text>
                             </Button>
