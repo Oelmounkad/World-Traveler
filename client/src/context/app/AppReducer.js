@@ -15,7 +15,8 @@ import { PERSIST_COMM_PROFILES,
         FILTER_PRO_GEN,
         PERSIST_CITIES,
         FILTER_REC_ALL,
-        FILTER_QUE_ALL} from "../types";
+        FILTER_QUE_ALL,
+        PERSIST_CHOSEN_PROFILE_RATINGS} from "../types";
 
 export default (state,action) => {
     switch(action.type){
@@ -34,6 +35,11 @@ export default (state,action) => {
                 return{
                     ...state,
                     chosenProfile: action.payload
+                }
+                case PERSIST_CHOSEN_PROFILE_RATINGS:
+                return{
+                    ...state,
+                    chosenProfileRatings: action.payload
                 }
                 case UPDATE_PROFILE:
             return{
