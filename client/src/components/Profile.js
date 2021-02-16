@@ -12,6 +12,8 @@ const Profile = props => {
 
     const history = useHistory()
 
+    const [isRatingsHidden, setIsRatingsHidden] = useState(true)
+
     const [modalSubject, setModalSubject] = useState({})
     const [message, setMessage] = useState('')
     const [time, setTime] = useState('')
@@ -517,12 +519,12 @@ const Profile = props => {
                                 <Text  fontSize="xl">
                                 {chosenProfile.description}
                                 </Text>
-                                {chosenProfileRatings.length !== 0 && <Heading mb='2'>Ratings:</Heading>  }
+                              {chosenProfileRatings.length !== 0 && <Button mb='2' onClick={() => setIsRatingsHidden(!isRatingsHidden)}>{isRatingsHidden ? 'Show Ratings' : 'Hide Ratings'}</Button>}  
                                 {chosenProfileRatings.length !== 0 ? 
                                 
                                 chosenProfileRatings.map(rating =>
 
-                                    <Flex marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg">
+                                    <Flex marginBottom='5' alignItems="center" maxW="4xl" borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="lg" hidden={isRatingsHidden}>
 
                                     <Box p="4">
                                     <Avatar
@@ -531,30 +533,33 @@ const Profile = props => {
                               src={rating.rater.profile.profilePicture}
                             />  
                                     </Box>
-                              <Box p="6">
+                              <Box p="1">
                                 <Box
                                  
                                 >
-                                  Fullname : {rating.rater.profile.fullName}
+                                 <Text fontSize="xl"> {rating.rater.profile.fullName}</Text>
                                 </Box>
                               </Box>
 
-                              <Flex direction="column"
+                              <Flex ml="5" direction="column"
                               >
                                   
                                   <Box overflow="hidden">
                                       {rating.opinion}
                                   </Box>
                               </Flex>
-
-                             <StaticRating 
+                             
+                             <Box ml='8'>
+                               <StaticRating 
                              size={30}
                              scale={5}
                              fillColor="gold"
                              strokeColor="grey"
                              initialRating={rating.rating}
                              
-                             />
+                             />  
+                                 </Box>       
+                             
 
 
                             </Flex> 
