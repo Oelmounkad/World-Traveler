@@ -8,7 +8,9 @@ import {Flex,
     FormLabel,
     Input,
     Button,
-    useToast } from "@chakra-ui/react"
+    useToast, 
+    Spinner,
+    Center} from "@chakra-ui/react"
 
 const Signup = props => {
 
@@ -19,6 +21,8 @@ const Signup = props => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+
+    const [isSignupLoading, setIsSignupLoading] = useState(false)
 
     const errorToast = useToast()
 
@@ -58,7 +62,13 @@ const Signup = props => {
                 password,
                 roles: ["user"]
             }
-            signup(data)
+            setIsSignupLoading(true)
+            signup(data).then(_ => {
+              setIsSignupLoading(false)
+            })
+            .catch(_ => {
+              setIsSignupLoading(false)
+            })
         }else{
           errorToast({
             title: 'Empty Fields',
@@ -73,6 +83,17 @@ const Signup = props => {
     return (
         <Flex width="full" align="center" justifyContent="center">
         <Box bg="brand.100" p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg" marginTop={50}>
+        <Center>
+         <Spinner
+            hidden={!isSignupLoading}
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+         </Center> 
+          
           <Box textAlign="center">
             <Heading>Sign Up</Heading>
           </Box>
