@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, Button, Divider, Flex, Heading, Image, Input, Text } from '@chakra-ui/react'
+import { Avatar, Badge, Box, Button, Divider, Flex, Heading, Image, Input, Link, Text } from '@chakra-ui/react'
 import React,{useState,useContext} from 'react'
 import moment from 'moment'
 import AppContext from '../context/app/AppContext'
@@ -11,7 +11,8 @@ const Question = ({que}) => {
     const appContext = useContext(AppContext)
     const {commentQuestion,getAllQuestions} = appContext
   
-  
+    const [toggleComments, setToggleComments] = useState(false)
+
     const [queComment, setQueComment] = useState('')
     
     const onSubmitComment = e => {
@@ -55,10 +56,10 @@ const Question = ({que}) => {
         } } cursor="pointer" marginRight='7px'>
             <Avatar src={que.user.profile.profilePicture} />
             <Box ml="3">
-                <Text color="white" fontWeight="bold">
+                <Text fontWeight="bold">
                 {que.user.profile.fullName}
                 </Text>
-                <Text fontSize="sm" color="white">{que.user.profile.city}</Text>
+                <Text fontSize="sm" >{que.user.profile.city}</Text>
             </Box>
             </Flex>
             }
@@ -101,19 +102,19 @@ const Question = ({que}) => {
           justify="space-between"
           flexDir="row"
         >
-          <Text isTruncated={true} w="100%" fontSize={["md", null, "lg"]}>
-            {que.comments.length} comment
-          </Text>
+          <Link onClick={() => setToggleComments(!toggleComments)} isTruncated={true} w="100%" fontSize={["md", null, "lg"]}>
+            {que.comments.length} comment{que.comments.length !== 1 ? 's':''}
+          </Link>
         </Flex>
         <br />
             <Divider />
             <br />
             {que.comments.length !== 0 && que.comments.map(comment => 
               
-              <Flex alignItems="center" mb='2'>
+              <Flex hidden={toggleComments} alignItems="center" mb='2'>
                 <Avatar src={comment.user.profile && comment.user.profile.profilePicture} />
                 <Box ml="3" mr='3'>
-                    <Text color="white" fontWeight="bold">
+                    <Text fontWeight="bold">
                     {comment.user.profile && comment.user.profile.fullName}
                     </Text>
                 </Box>
