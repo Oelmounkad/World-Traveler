@@ -6,12 +6,5 @@
 ## Application Architecture
 ![](images/diagram.png)
 
-# How to serve the app:
-
-To install dependencies:
-```bash
-npm install
-```
-
 ## The Application Link:
-(not yet deployed :P)
+https://worldtraveler.netlify.app/
